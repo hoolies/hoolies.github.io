@@ -290,7 +290,7 @@
     const endpoint = "https://formsubmit.co/ajax/chrysanthos@rouvellas.com";
 
     if (new URLSearchParams(window.location.search).get("sent") === "1") {
-      statusEl.textContent = "Message sent — I'll get back to you soon.";
+      statusEl.textContent = "Message sent. I'll get back to you soon.";
       statusEl.classList.add("form-status-success");
       window.history.replaceState({}, "", window.location.pathname + window.location.hash);
     }
@@ -324,7 +324,7 @@
         }
 
         form.reset();
-        statusEl.textContent = "Message sent — I'll get back to you soon.";
+        statusEl.textContent = "Message sent. I'll get back to you soon.";
         statusEl.classList.add("form-status-success");
       } catch {
         statusEl.textContent = "Something went wrong. Try again in a moment.";
@@ -439,7 +439,7 @@
       { delay: 0, fn: () => { setStep("dhcp"); addLine(clientEl, "$ sudo dhclient eth0", "cmd"); } },
       { delay: 600, fn: () => addLine(clientEl, "DHCPDISCOVER on eth0 to 255.255.255.255", "dim") },
       { delay: 1100, fn: () => { movePacket("22%"); addLine(clientEl, "DHCPOFFER from 10.0.0.1", "info"); } },
-      { delay: 1600, fn: () => addLine(clientEl, "DHCPACK — lease 10.0.0.42/24 gw 10.0.0.1", "ok") },
+      { delay: 1600, fn: () => addLine(clientEl, "DHCPACK: lease 10.0.0.42/24 gw 10.0.0.1", "ok") },
       { delay: 2200, fn: () => { setStep("dns"); movePacket("50%"); addLine(clientEl, "$ ssh hoolies@prod.internal", "cmd"); } },
       { delay: 2700, fn: () => addLine(clientEl, "Resolving prod.internal...", "info") },
       { delay: 3100, fn: () => addLine(serverEl, "[dns] query prod.internal A", "dim") },

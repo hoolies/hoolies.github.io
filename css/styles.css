@@ -761,6 +761,37 @@ ul {
   border-color: var(--border-strong);
 }
 
+.skill-card-wide {
+  grid-column: 1 / -1;
+}
+
+.skill-details {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skill-details li {
+  position: relative;
+  padding-left: 1rem;
+  margin-bottom: 0.65rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.skill-details li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.skill-details li:last-child {
+  margin-bottom: 0;
+}
+
 .skill-card h3 {
   margin: 0 0 1rem;
   font-size: 1rem;
