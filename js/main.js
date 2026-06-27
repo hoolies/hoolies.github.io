@@ -89,39 +89,73 @@
   function initTerminal() {
     const uptimeEl = document.getElementById("terminalUptime");
     const commandEl = document.getElementById("terminalCommand");
-    if (!uptimeEl || !commandEl) return;
-
-    const startYear = 1996;
-    const years = new Date().getFullYear() - startYear;
+    const outputEl = document.getElementById("terminalCommandOutput");
+    if (!uptimeEl || !commandEl || !outputEl) return;
 
     setTimeout(() => {
-      uptimeEl.textContent = `${years} years, 0 crashes on fundamentals`;
+      uptimeEl.textContent = "30 years on Linux, load average: calm under pressure";
     }, 800);
 
     const commands = [
-      "cat /proc/skills | grep -E 'linux|mentor|network'",
-      "ssh prod 'fix the thing everyone else gave up on'",
-      "ansible-playbook train_the_team.yml",
-      "tcpdump -i any 'port 443 or port 22'",
+      {
+        cmd: "ssh ops@prod -t 'tmux attach -t incident'",
+        output: "[incident] 3 windows (attached)",
+      },
+      {
+        cmd: "ssh cisco-core01 'show ip bgp summary'",
+        output: "BGP router identifier 10.0.0.1 · 42 routes · 0 flaps",
+      },
+      {
+        cmd: "ssh juniper-fw01 'show route table inet.0'",
+        output: "inet.0: 128 destinations, 512 routes (128 active)",
+      },
+      {
+        cmd: "nc -zv db.internal 22 443 5432",
+        output: "Connection to db.internal 22 port [tcp/ssh] succeeded!",
+      },
+      {
+        cmd: "nmap -sV --top-ports 100 10.20.30.0/24",
+        output: "Nmap done: 256 IP addresses · 12 hosts up · 0.84s elapsed",
+      },
+      {
+        cmd: "htop",
+        output: "CPU ████░░░░░░ 42% · MEM 6.2G/16G · load 0.42 0.38 0.31",
+      },
+      {
+        cmd: "vim +/Listen /etc/nginx/nginx.conf",
+        output: "42:    listen 443 ssl http2;",
+      },
     ];
 
     let cmdIndex = 0;
     let charIndex = 0;
     let deleting = false;
 
+    function hideOutput() {
+      outputEl.hidden = true;
+      outputEl.textContent = "";
+    }
+
+    function showOutput(text) {
+      outputEl.textContent = text;
+      outputEl.hidden = false;
+    }
+
     function typeLoop() {
       const current = commands[cmdIndex];
 
       if (!deleting) {
-        commandEl.textContent = current.slice(0, charIndex + 1);
+        commandEl.textContent = current.cmd.slice(0, charIndex + 1);
         charIndex++;
 
-        if (charIndex === current.length) {
+        if (charIndex === current.cmd.length) {
+          showOutput(current.output);
           setTimeout(() => { deleting = true; typeLoop(); }, 2200);
           return;
         }
       } else {
-        commandEl.textContent = current.slice(0, charIndex - 1);
+        hideOutput();
+        commandEl.textContent = current.cmd.slice(0, charIndex - 1);
         charIndex--;
 
         if (charIndex === 0) {
@@ -241,6 +275,64 @@
   }
 
   /* ------------------------------------------------------------------
+     Contact form — FormSubmit relay (email not exposed in markup)
+     ------------------------------------------------------------------ */
+  function initContactForm() {
+    const form = document.getElementById("contactForm");
+    const statusEl = document.getElementById("contactStatus");
+    const submitBtn = document.getElementById("contactSubmit");
+    if (!form || !statusEl || !submitBtn) return;
+
+    const endpoint = "https://formsubmit.co/ajax/chrysanthos@rouvellas.com";
+
+    if (new URLSearchParams(window.location.search).get("sent") === "1") {
+      statusEl.textContent = "Message sent — I'll get back to you soon.";
+      statusEl.classList.add("form-status-success");
+      window.history.replaceState({}, "", window.location.pathname + window.location.hash);
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending…";
+      statusEl.textContent = "";
+      statusEl.className = "form-status";
+
+      const payload = new FormData(form);
+      payload.append("_subject", "Portfolio contact");
+      payload.append("_captcha", "false");
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          body: payload,
+          headers: { Accept: "application/json" },
+        });
+
+        if (!response.ok) {
+          throw new Error("Request failed");
+        }
+
+        form.reset();
+        statusEl.textContent = "Message sent — I'll get back to you soon.";
+        statusEl.classList.add("form-status-success");
+      } catch {
+        statusEl.textContent = "Something went wrong. Try again in a moment.";
+        statusEl.classList.add("form-status-error");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send message";
+      }
+    });
+  }
+
+  /* ------------------------------------------------------------------
      Footer year
      ------------------------------------------------------------------ */
   function initFooter() {
@@ -258,6 +350,7 @@
     initCounters();
     initHeader();
     initNav();
+    initContactForm();
     initFooter();
   });
 })();
