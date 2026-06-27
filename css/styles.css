@@ -748,6 +748,17 @@ ul {
   gap: 1rem;
 }
 
+/* Services */
+.services {
+  background: linear-gradient(180deg, transparent, rgba(0, 180, 216, 0.03) 50%, transparent);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
 .skill-card {
   padding: 1.5rem;
   background: var(--bg-card);
@@ -1310,6 +1321,10 @@ ul {
 
   .highlight-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
   }
 
   .skills-layout {
