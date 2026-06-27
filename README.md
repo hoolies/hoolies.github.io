@@ -78,6 +78,28 @@ portfolio/
 └── README.md
 ```
 
+## Analytics (GoatCounter)
+
+Privacy-friendly analytics are included. One-time setup:
+
+1. Sign up at [goatcounter.com](https://www.goatcounter.com) — use site code **`hoolies`** (creates `hoolies.goatcounter.com`)
+2. Add your domain `hoolies.github.io` in GoatCounter settings
+3. Stats appear at `https://hoolies.goatcounter.com`
+
+The script is already in `index.html`. If you pick a different site code, update the `data-goatcounter` URL.
+
+## Regenerate assets
+
+```bash
+# Social preview image (1200×630)
+chromium --headless --disable-gpu --screenshot=og-image.png --window-size=1200,630 \
+  --default-background-color=06080c file://$PWD/og-image.html
+
+# Resume PDF (edit resume.md first)
+pandoc resume.md -o resume.html --standalone --metadata title="Chrysanthos Rouvellas - Resume"
+chromium --headless --disable-gpu --print-to-pdf=resume.pdf file://$PWD/resume.html
+```
+
 ## Customize
 
 - **Content**: Edit sections directly in `index.html`.

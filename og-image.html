@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      font-family: system-ui, sans-serif;
+      background: #06080c;
+      color: #e8edf4;
+      position: relative;
+    }
+    .grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 229, 160, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 160, 0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+    .glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 229, 160, 0.18), transparent 70%);
+      top: -200px;
+      right: -100px;
+    }
+    .content {
+      position: relative;
+      z-index: 1;
+      padding: 72px 80px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .prompt {
+      font-family: ui-monospace, monospace;
+      font-size: 28px;
+      color: #00e5a0;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 72px;
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .accent {
+      background: linear-gradient(135deg, #00e5a0, #00b4d8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .tagline {
+      font-family: ui-monospace, monospace;
+      font-size: 26px;
+      color: #8b9cb3;
+      max-width: 900px;
+      line-height: 1.5;
+    }
+    .url {
+      position: absolute;
+      bottom: 56px;
+      left: 80px;
+      font-family: ui-monospace, monospace;
+      font-size: 22px;
+      color: #00e5a0;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="glow"></div>
+  <div class="content">
+    <div class="prompt">~ hoolies</div>
+    <h1>Chrysanthos <span class="accent">Rouvellas</span></h1>
+    <p class="tagline">Fundamentals Evangelist · Technology Aficionado · Lead Support Engineer</p>
+  </div>
+  <div class="url">hoolies.github.io</div>
+</body>
+</html>

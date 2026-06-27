@@ -3,20 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Chrysanthos Rouvellas — Lead Support Engineer, fundamentals evangelist, technology afficionado. Nearly 30 years of Linux, networking, and mentorship at scale.">
+  <meta name="description" content="Chrysanthos Rouvellas — Lead Support Engineer, fundamentals evangelist, technology aficionado. Nearly 30 years of Linux, networking, and mentorship at scale.">
   <meta name="author" content="Chrysanthos Rouvellas">
   <meta name="theme-color" content="#0a0e14">
+  <link rel="canonical" href="https://hoolies.github.io/">
 
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Chrysanthos Rouvellas | Systems Architect & Mentor">
-  <meta property="og:description" content="Nearly 30 years of Linux mastery. Building infrastructure, teaching teams, and solving problems others can't.">
+  <meta property="og:title" content="Chrysanthos Rouvellas | Fundamentals Evangelist">
+  <meta property="og:description" content="Nearly 30 years of Linux mastery. Fundamentals evangelist, technology aficionado, and lead engineer who builds infrastructure and teaches teams.">
   <meta property="og:url" content="https://hoolies.github.io/">
+  <meta property="og:image" content="https://hoolies.github.io/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Chrysanthos Rouvellas | Systems Architect & Mentor">
+  <meta name="twitter:title" content="Chrysanthos Rouvellas | Fundamentals Evangelist">
   <meta name="twitter:description" content="Nearly 30 years of Linux mastery. Infrastructure, automation, and mentorship at scale.">
+  <meta name="twitter:image" content="https://hoolies.github.io/og-image.png">
 
-  <title>Chrysanthos Rouvellas — Systems Architect & Mentor</title>
+  <title>Chrysanthos Rouvellas — Fundamentals Evangelist</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,12 +35,13 @@
     "@type": "Person",
     "name": "Chrysanthos Rouvellas",
     "jobTitle": "Lead Support Engineer",
+    "email": "chrysanthos@rouvellas.com",
     "url": "https://hoolies.github.io/",
     "sameAs": [
       "https://github.com/hoolies",
       "https://www.linkedin.com/in/crouvellas/"
     ],
-    "knowsAbout": ["Linux", "Networking", "AWS", "Python", "Infrastructure", "Mentorship"]
+    "knowsAbout": ["Linux", "Networking", "AWS", "Python", "Infrastructure", "Mentorship", "BGP", "Automation"]
   }
   </script>
 </head>
@@ -60,11 +66,11 @@
 
       <nav class="site-nav" id="siteNav" aria-label="Primary">
         <ul class="nav-list">
-          <li><a href="#philosophy">Philosophy</a></li>
-          <li><a href="#expertise">Expertise</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#impact">Impact</a></li>
-          <li><a href="#contact" class="nav-cta">Contact</a></li>
+          <li><a href="#philosophy" data-section="philosophy">Philosophy</a></li>
+          <li><a href="#expertise" data-section="expertise">Expertise</a></li>
+          <li><a href="#experience" data-section="experience">Experience</a></li>
+          <li><a href="#impact" data-section="impact">Impact</a></li>
+          <li><a href="#contact" class="nav-cta" data-section="contact">Contact</a></li>
         </ul>
       </nav>
     </div>
@@ -83,7 +89,7 @@
             <span class="hero-line hero-line-accent">Rouvellas</span>
           </h1>
           <p class="hero-tagline reveal">
-            Lead Support Engineer · Systems architect · Fundamentals Evangelist · Technology Afficionado
+            Lead Support Engineer · Systems architect · Fundamentals Evangelist · Technology Aficionado
           </p>
           <p class="hero-lead reveal">
             Nearly <strong>30 years</strong> living inside Linux terminals. I build resilient infrastructure,
@@ -91,6 +97,7 @@
           </p>
           <div class="hero-actions reveal">
             <a href="#experience" class="btn btn-primary">View my work</a>
+            <a href="resume.pdf" class="btn btn-ghost" download>Download CV</a>
             <a href="#contact" class="btn btn-ghost">Get in touch</a>
           </div>
           <dl class="hero-stats reveal">
@@ -114,7 +121,7 @@
             <div class="terminal-body" id="terminalBody">
               <div class="terminal-line terminal-muted">Linux prod 6.18.35_1 SMP PREEMPT_DYNAMIC x86_64 GNU/Linux</div>
               <div class="terminal-line"><span class="prompt">chrysanthos@prod ~ %</span> whoami</div>
-              <div class="terminal-line terminal-output">chrysanthos — fundamentals evangelist, technology afficionado, lead engineer</div>
+              <div class="terminal-line terminal-output">chrysanthos — fundamentals evangelist, technology aficionado, lead engineer</div>
               <div class="terminal-line"><span class="prompt">chrysanthos@prod ~ %</span> uptime</div>
               <div class="terminal-line terminal-output" id="terminalUptime">calculating kernel wisdom…</div>
               <div class="terminal-line"><span class="prompt">chrysanthos@prod ~ %</span> <span id="terminalCommand"></span><span class="terminal-cursor" aria-hidden="true">█</span></div>
@@ -123,13 +130,6 @@
           </div>
         </div>
       </div>
-
-      <a href="#philosophy" class="scroll-hint" aria-label="Scroll to learn more">
-        <span>Explore</span>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
     </section>
 
     <section class="section philosophy" id="philosophy" aria-labelledby="philosophy-title">
@@ -172,7 +172,7 @@
             <div class="pillar-icon" aria-hidden="true">
               <svg viewBox="0 0 48 48" fill="none"><path d="M6 24h36M24 6v36" stroke="currentColor" stroke-width="1.5" opacity="0.3"/><circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="1.5"/><path d="M14 30c2-6 6-9 10-9s8 3 10 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
             </div>
-            <h3>Technology afficionado</h3>
+            <h3>Technology aficionado</h3>
             <p>
               From BGP peering sessions to business analytics with AI — I connect layers 1–7,
               on-prem to cloud, and engineering teams to the outcomes they actually need.
@@ -191,11 +191,34 @@
         </header>
 
         <div class="skills-layout">
-          <div class="skills-orbit reveal" aria-hidden="true">
-            <div class="orbit-center">CR</div>
-            <div class="orbit-ring orbit-ring-1"></div>
-            <div class="orbit-ring orbit-ring-2"></div>
-            <div class="orbit-ring orbit-ring-3"></div>
+          <div class="network-demo reveal" aria-label="Network connection demo: DHCP, DNS, and SSH">
+            <div class="net-host net-client">
+              <div class="net-host-label">workstation · eth0</div>
+              <div class="net-console" id="clientConsole"></div>
+            </div>
+
+            <div class="net-flow" aria-hidden="true">
+              <div class="net-step net-step-active" data-step="dhcp">
+                <span class="net-step-dot"></span>
+                <span>DHCP</span>
+              </div>
+              <div class="net-step-line"></div>
+              <div class="net-step" data-step="dns">
+                <span class="net-step-dot"></span>
+                <span>DNS</span>
+              </div>
+              <div class="net-step-line"></div>
+              <div class="net-step" data-step="ssh">
+                <span class="net-step-dot"></span>
+                <span>SSH</span>
+              </div>
+              <div class="net-packet" id="netPacket"></div>
+            </div>
+
+            <div class="net-host net-server">
+              <div class="net-host-label">prod.internal</div>
+              <div class="net-console" id="serverConsole"></div>
+            </div>
           </div>
 
           <div class="skills-grid">
@@ -240,7 +263,6 @@
                 <li>Runbooks &amp; docs</li>
                 <li>Chaos engineering</li>
                 <li>Pre-mortem</li>
-                <li>Cross-site projects</li>
               </ul>
             </article>
           </div>
@@ -248,16 +270,86 @@
       </div>
     </section>
 
+    <section class="section highlights" id="highlights" aria-labelledby="highlights-title">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">03 — Highlights</span>
+          <h2 id="highlights-title">What I build &amp; ship</h2>
+          <p class="section-intro">
+            Open-source experiments, production tooling, and recent wins — the kind of work that backs up the terminal prompt.
+          </p>
+        </header>
+
+        <div class="highlight-grid">
+          <article class="highlight-card reveal">
+            <span class="highlight-badge">Open source</span>
+            <h3>Linux</h3>
+            <p>Configs, notes, and deep dives from decades inside the kernel and userspace — fundamentals documented, not just used.</p>
+            <ul class="highlight-tags">
+              <li>Linux</li>
+              <li>Sysadmin</li>
+              <li>Docs</li>
+            </ul>
+            <a href="https://github.com/hoolies/Linux" class="highlight-link" target="_blank" rel="noopener noreferrer">github.com/hoolies/Linux →</a>
+          </article>
+
+          <article class="highlight-card reveal">
+            <span class="highlight-badge">Open source</span>
+            <h3>NetworkAutomationProject</h3>
+            <p>Automation for network operations — the kind of repeatable tooling that turns tribal knowledge into something a team can run at 3 AM.</p>
+            <ul class="highlight-tags">
+              <li>Python</li>
+              <li>Networking</li>
+              <li>Automation</li>
+            </ul>
+            <a href="https://github.com/hoolies/NetworkAutomationProject" class="highlight-link" target="_blank" rel="noopener noreferrer">View repo →</a>
+          </article>
+
+          <article class="highlight-card reveal">
+            <span class="highlight-badge">Open source</span>
+            <h3>RTFM</h3>
+            <p>Reference material and runbooks — because the best engineers leave a trail others can follow when production gets interesting.</p>
+            <ul class="highlight-tags">
+              <li>Runbooks</li>
+              <li>Knowledge base</li>
+            </ul>
+            <a href="https://github.com/hoolies/RTFM" class="highlight-link" target="_blank" rel="noopener noreferrer">View repo →</a>
+          </article>
+
+          <article class="highlight-card reveal">
+            <span class="highlight-badge highlight-badge-work">Work</span>
+            <h3>Nautilus — AI &amp; Analytics</h3>
+            <p>Business analytics and AI tooling for org-wide needs at Amazon — bridging data, infrastructure, and the teams who depend on both.</p>
+            <ul class="highlight-tags">
+              <li>AI tooling</li>
+              <li>Analytics</li>
+              <li>Python</li>
+            </ul>
+          </article>
+
+          <article class="highlight-card reveal">
+            <span class="highlight-badge highlight-badge-work">Work</span>
+            <h3>40% faster site recovery</h3>
+            <p>New recovery methodologies at Amazon YHM — turning incident chaos into a repeatable playbook the whole node could execute.</p>
+            <ul class="highlight-tags">
+              <li>SCADA</li>
+              <li>Runbooks</li>
+              <li>Incident response</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="section experience" id="experience" aria-labelledby="experience-title">
       <div class="container">
         <header class="section-header reveal">
-          <span class="section-label">03 — Experience</span>
+          <span class="section-label">04 — Experience</span>
           <h2 id="experience-title">Where I've shipped impact</h2>
         </header>
 
-        <div class="timeline">
+        <div class="experience-list">
           <article class="timeline-item reveal">
-            <div class="timeline-marker"></div>
             <div class="timeline-card">
               <header class="timeline-header">
                 <div>
@@ -269,13 +361,12 @@
               <ul class="timeline-details">
                 <li>L&amp;D team: mentor org-wide, create and approve training curricula</li>
                 <li>Nautilus team: business analytics and AI tooling for org needs</li>
-                <li>OIS-AR-MIGRATION support for Canada East and West · AMER Hackathon 2026 participant</li>
+                <li>Migrating infrastructure and networks Canada-wide</li>
               </ul>
             </div>
           </article>
 
           <article class="timeline-item reveal">
-            <div class="timeline-marker"></div>
             <div class="timeline-card">
               <header class="timeline-header">
                 <div>
@@ -287,13 +378,12 @@
               <ul class="timeline-details">
                 <li>Network consulting for Amazon Robotics SCADA integration across workcells</li>
                 <li>Designed firewall rules and ACLs for on-prem ↔ cloud connectivity</li>
-                <li>Deployed and patched edge infrastructure: stations, servers, and databases</li>
+                <li>Deployed, patched and maintain global Linux fleet, edge infrastructure and stations</li>
               </ul>
             </div>
           </article>
 
           <article class="timeline-item reveal">
-            <div class="timeline-marker"></div>
             <div class="timeline-card">
               <header class="timeline-header">
                 <div>
@@ -303,7 +393,7 @@
                 <time datetime="2023-06/2024-06">Jun 2023 — Jun 2024</time>
               </header>
               <ul class="timeline-details">
-                <li>Built OOB management network: runbooks, APIs, Linux configs, change workflows</li>
+                <li>Built IPv6 OOB management network: runbooks, APIs, Linux configs, change workflows</li>
                 <li>Troubleshot BGP, VPN, Linux, and container issues at scale</li>
                 <li>Designed local site cache logic for container images, firmware, and software</li>
               </ul>
@@ -311,7 +401,6 @@
           </article>
 
           <article class="timeline-item reveal">
-            <div class="timeline-marker"></div>
             <div class="timeline-card">
               <header class="timeline-header">
                 <div>
@@ -329,7 +418,6 @@
           </article>
 
           <article class="timeline-item reveal">
-            <div class="timeline-marker"></div>
             <div class="timeline-card">
               <header class="timeline-header">
                 <div>
@@ -347,7 +435,6 @@
           </article>
 
           <article class="timeline-item reveal">
-            <div class="timeline-marker"></div>
             <div class="timeline-card">
               <header class="timeline-header">
                 <div>
@@ -370,7 +457,7 @@
     <section class="section impact" id="impact" aria-labelledby="impact-title">
       <div class="container">
         <header class="section-header reveal">
-          <span class="section-label">04 — Impact</span>
+          <span class="section-label">05 — Impact</span>
           <h2 id="impact-title">Numbers that tell the story</h2>
         </header>
 
@@ -404,6 +491,8 @@
             <li>CompTIA A+ · CySA+</li>
             <li>Cisco CCNA</li>
             <li>AWS Practitioner</li>
+            <li>S905: ScyllaDB Essentials Track</li>
+            <li>AI Solutions on Cisco Infrastructure Essentials</li>
             <li>Trios College — Network Administrator, 2020</li>
           </ul>
         </div>
@@ -414,7 +503,7 @@
       <div class="container">
         <div class="contact-panel reveal">
           <div class="contact-content">
-            <span class="section-label">05 — Contact</span>
+            <span class="section-label">06 — Contact</span>
             <h2 id="contact-title">Let's build something<br>that lasts.</h2>
             <p>
               Whether you need someone who can debug a BGP flap at 3 AM,
@@ -443,6 +532,10 @@
             </form>
 
             <div class="contact-social">
+              <a href="mailto:chrysanthos@rouvellas.com" class="contact-link">
+                <span class="contact-link-label">Email</span>
+                <span class="contact-link-value">chrysanthos@rouvellas.com</span>
+              </a>
               <a href="https://github.com/hoolies" class="contact-link" target="_blank" rel="noopener noreferrer">
                 <span class="contact-link-label">GitHub</span>
                 <span class="contact-link-value">@hoolies</span>
@@ -458,6 +551,14 @@
     </section>
   </main>
 
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true">
+    <svg class="scroll-progress-svg" viewBox="0 0 44 44">
+      <circle class="scroll-progress-bg" cx="22" cy="22" r="18"></circle>
+      <circle class="scroll-progress-fill" id="scrollProgressRing" cx="22" cy="22" r="18"></circle>
+    </svg>
+    <span class="scroll-progress-label" id="scrollProgressLabel">0%</span>
+  </div>
+
   <footer class="site-footer">
     <div class="container footer-inner">
       <p>&copy; <span id="year"></span> Chrysanthos Rouvellas. Built with fundamentals.</p>
@@ -465,6 +566,8 @@
     </div>
   </footer>
 
+  <script data-goatcounter="https://hoolies.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>

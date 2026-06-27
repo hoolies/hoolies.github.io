@@ -337,6 +337,143 @@
   }
 
   /* ------------------------------------------------------------------
+     Active section nav + scroll progress
+     ------------------------------------------------------------------ */
+  function initSectionNav() {
+    const sections = ["philosophy", "expertise", "experience", "impact", "contact"];
+    const links = document.querySelectorAll(".nav-list a[data-section]");
+    const header = document.querySelector(".site-header");
+    if (!links.length) return;
+
+    const headerOffset = () => (header ? header.offsetHeight + 48 : 120);
+
+    function update() {
+      const scrollPos = window.scrollY + headerOffset();
+      let current = "";
+
+      sections.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= scrollPos) {
+          current = id;
+        }
+      });
+
+      links.forEach((link) => {
+        link.classList.toggle("active", link.dataset.section === current);
+      });
+    }
+
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  }
+
+  function initScrollProgress() {
+    const ring = document.getElementById("scrollProgressRing");
+    const label = document.getElementById("scrollProgressLabel");
+    if (!ring) return;
+
+    const circumference = 2 * Math.PI * 18;
+    ring.style.strokeDasharray = String(circumference);
+    ring.style.strokeDashoffset = String(circumference);
+
+    function update() {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? window.scrollY / docHeight : 0;
+      ring.style.strokeDashoffset = String(circumference * (1 - progress));
+      if (label) {
+        label.textContent = `${Math.round(progress * 100)}%`;
+      }
+    }
+
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  }
+
+  /* ------------------------------------------------------------------
+     Network demo — DHCP, DNS, SSH
+     ------------------------------------------------------------------ */
+  function initNetworkDemo() {
+    const clientEl = document.getElementById("clientConsole");
+    const serverEl = document.getElementById("serverConsole");
+    const packet = document.getElementById("netPacket");
+    const steps = document.querySelectorAll(".net-step");
+    if (!clientEl || !serverEl) return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function clearConsoles() {
+      clientEl.innerHTML = "";
+      serverEl.innerHTML = "";
+      steps.forEach((s) => s.classList.remove("net-step-active"));
+      if (packet) {
+        packet.classList.remove("visible");
+        packet.style.left = "12%";
+      }
+    }
+
+    function addLine(container, text, className) {
+      const line = document.createElement("div");
+      line.className = `net-line ${className || ""}`.trim();
+      line.textContent = text;
+      container.appendChild(line);
+      while (container.children.length > 5) {
+        container.removeChild(container.firstChild);
+      }
+    }
+
+    function setStep(name) {
+      steps.forEach((s) => {
+        s.classList.toggle("net-step-active", s.dataset.step === name);
+      });
+    }
+
+    function movePacket(left) {
+      if (!packet) return;
+      packet.classList.add("visible");
+      packet.style.left = left;
+    }
+
+    const sequence = [
+      { delay: 0, fn: () => { setStep("dhcp"); addLine(clientEl, "$ sudo dhclient eth0", "cmd"); } },
+      { delay: 600, fn: () => addLine(clientEl, "DHCPDISCOVER on eth0 to 255.255.255.255", "dim") },
+      { delay: 1100, fn: () => { movePacket("22%"); addLine(clientEl, "DHCPOFFER from 10.0.0.1", "info"); } },
+      { delay: 1600, fn: () => addLine(clientEl, "DHCPACK — lease 10.0.0.42/24 gw 10.0.0.1", "ok") },
+      { delay: 2200, fn: () => { setStep("dns"); movePacket("50%"); addLine(clientEl, "$ ssh hoolies@prod.internal", "cmd"); } },
+      { delay: 2700, fn: () => addLine(clientEl, "Resolving prod.internal...", "info") },
+      { delay: 3100, fn: () => addLine(serverEl, "[dns] query prod.internal A", "dim") },
+      { delay: 3400, fn: () => addLine(serverEl, "[dns] → 10.0.0.50", "info") },
+      { delay: 3700, fn: () => addLine(clientEl, "prod.internal: 10.0.0.50", "ok") },
+      { delay: 4100, fn: () => { setStep("ssh"); movePacket("82%"); } },
+      { delay: 4400, fn: () => addLine(serverEl, "[sshd] conn from 10.0.0.42:44102", "dim") },
+      { delay: 4700, fn: () => addLine(serverEl, "[sshd] Accepted publickey for hoolies", "ok") },
+      { delay: 5000, fn: () => addLine(serverEl, "[sshd] session opened", "ok") },
+      { delay: 5600, fn: () => addLine(clientEl, "Welcome to prod.internal", "ok") },
+      { delay: 7000, fn: clearConsoles },
+    ];
+
+    function runSequence() {
+      clearConsoles();
+      sequence.forEach(({ delay, fn }) => {
+        setTimeout(fn, delay);
+      });
+      const total = sequence[sequence.length - 1].delay + 2500;
+      setTimeout(runSequence, prefersReducedMotion ? 0 : total);
+    }
+
+    if (prefersReducedMotion) {
+      addLine(clientEl, "$ dhclient eth0 && ssh prod.internal", "cmd");
+      addLine(clientEl, "lease 10.0.0.42 · DNS ok · connected", "ok");
+      addLine(serverEl, "[sshd] session opened for hoolies", "ok");
+      setStep("ssh");
+      return;
+    }
+
+    runSequence();
+  }
+
+  /* ------------------------------------------------------------------
      Footer year
      ------------------------------------------------------------------ */
   function initFooter() {
@@ -354,6 +491,9 @@
     initCounters();
     initHeader();
     initNav();
+    initSectionNav();
+    initScrollProgress();
+    initNetworkDemo();
     initContactForm();
     initFooter();
   });
