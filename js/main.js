@@ -340,7 +340,7 @@
      Active section nav + scroll progress
      ------------------------------------------------------------------ */
   function initSectionNav() {
-    const sections = ["philosophy", "expertise", "experience", "impact", "contact"];
+    const sections = ["philosophy", "expertise", "highlights", "experience", "impact", "contact"];
     const links = document.querySelectorAll(".nav-list a[data-section]");
     const header = document.querySelector(".site-header");
     if (!links.length) return;
