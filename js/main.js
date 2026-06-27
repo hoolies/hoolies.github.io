@@ -98,6 +98,14 @@
 
     const commands = [
       {
+        cmd: "proxychains4 ssh -J bastion@dmz,ops@jumpbox prod.internal",
+        output: "[proxychains] DLL init · Strict chain ... 3 hops · OK",
+      },
+      {
+        cmd: "ssh -J hoolies@bastion,hoolies@jump hoolies@prod -t 'tmux attach -t incident'",
+        output: "[incident] 3 windows (attached) via 2 jump hosts",
+      },
+      {
         cmd: "ssh ops@prod -t 'tmux attach -t incident'",
         output: "[incident] 3 windows (attached)",
       },
