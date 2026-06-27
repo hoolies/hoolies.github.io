@@ -98,16 +98,12 @@
 
     const commands = [
       {
-        cmd: "proxychains4 ssh -J bastion@dmz,ops@jumpbox prod.internal",
-        output: "[proxychains] DLL init · Strict chain ... 3 hops · OK",
+        cmd: "proxychains4 -q curl ifconfig.me",
+        output: "203.0.113.42",
       },
       {
         cmd: "ssh -J hoolies@bastion,hoolies@jump hoolies@prod -t 'tmux attach -t incident'",
         output: "[incident] 3 windows (attached) via 2 jump hosts",
-      },
-      {
-        cmd: "ssh ops@prod -t 'tmux attach -t incident'",
-        output: "[incident] 3 windows (attached)",
       },
       {
         cmd: "ssh cisco-core01 'show ip bgp summary'",
