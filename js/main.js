@@ -102,8 +102,8 @@
         output: "203.0.113.42",
       },
       {
-        cmd: "ssh -J hoolies@bastion,hoolies@jump hoolies@prod -t 'tmux attach -t incident'",
-        output: "[incident] 3 windows (attached) via 2 jump hosts",
+        cmd: "ssh hoolies@prod -t 'tmux attach -t incident'",
+        output: "[incident] 3 windows (attached)",
       },
       {
         cmd: "ssh cisco-core01 'show ip bgp summary'",
@@ -126,8 +126,8 @@
         output: "CPU ████░░░░░░ 42% · MEM 6.2G/16G · load 0.42 0.38 0.31",
       },
       {
-        cmd: "vim +/Listen /etc/nginx/nginx.conf",
-        output: "42:    listen 443 ssl http2;",
+        cmd: 'sudo vim -q <(grep -rni "error" /var/log/)',
+        output: '/var/log/syslog:1842: error: connection reset by peer',
       },
     ];
 
