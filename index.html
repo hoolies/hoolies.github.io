@@ -107,7 +107,6 @@
           <div class="hero-actions reveal">
             <a href="#services" class="btn btn-primary">Training or consulting</a>
             <a href="#experience" class="btn btn-ghost">View my work</a>
-            <a href="resume.html" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">View CV</a>
           </div>
           <dl class="hero-stats reveal">
             <div class="stat">
@@ -138,8 +137,8 @@
               <div class="terminal-line terminal-output">chrysanthos: engineer, consultant, fundamentals evangelist, technology aficionado</div>
               <div class="terminal-line"><span class="prompt" id="terminalPromptUptime">chrysanthos@prod ~ $</span> uptime</div>
               <div class="terminal-line terminal-output" id="terminalUptime">calculating kernel wisdom…</div>
-              <div class="terminal-line"><span class="prompt" id="terminalPromptCmd">chrysanthos@prod ~ $</span> <span id="terminalCommand"></span><span class="terminal-cursor" aria-hidden="true">█</span></div>
-              <div class="terminal-line terminal-output terminal-command-output" id="terminalCommandOutput" hidden></div>
+              <div class="terminal-line terminal-command-line"><span class="prompt" id="terminalPromptCmd">chrysanthos@prod ~ $</span> <span id="terminalCommand"></span><span class="terminal-cursor" aria-hidden="true">█</span></div>
+              <div class="terminal-line terminal-output terminal-command-output" id="terminalCommandOutput" aria-live="polite"></div>
             </div>
             <p class="terminal-hint">Click terminal or tabs to switch sessions</p>
           </div>
@@ -178,8 +177,7 @@
             <h3>Fundamentals evangelist</h3>
             <p>
               I never just hand someone a runbook and walk away. I teach people to act with purpose by understanding
-              the reasoning and impact behind every decision. I have trained engineers across Linux script automation,
-              APIs, databases, SQL, and AI.
+              the reasoning and impact behind every decision. I have trained engineers across Linux, automation, APIs, databases, SQL, and AI.
             </p>
           </article>
 
@@ -249,7 +247,7 @@
           </div>
 
           <div class="skills-ls reveal" aria-hidden="true">
-            <pre class="skills-ls-pre"><span class="skills-ls-prompt">%</span> ls skills/
+            <pre class="skills-ls-pre"><span class="skills-ls-prompt">$</span> ls skills/
 linux  networking  automation  leadership  ai</pre>
           </div>
 
@@ -374,7 +372,7 @@ linux  networking  automation  leadership  ai</pre>
         <header class="section-header reveal">
           <span class="section-label">Experience</span>
           <h2 id="experience-title">Where I've shipped impact</h2>
-          <p class="section-intro experience-git-intro"><span class="git-prompt">$</span> git log --oneline --author=chrysanthos</p>
+          <p class="section-intro experience-git-intro"><span class="git-prompt">$</span> git log --author=chrysanthos</p>
         </header>
 
         <div class="experience-list experience-git-log">
@@ -468,16 +466,21 @@ linux  networking  automation  leadership  ai</pre>
             </div>
           </article>
 
-          <article class="timeline-item timeline-item-compact reveal">
+          <article class="timeline-item reveal">
             <div class="timeline-card">
               <span class="git-hash" aria-hidden="true">f2c6d90</span>
               <header class="timeline-header">
                 <div>
                   <h3>Concentrix</h3>
-                  <p class="timeline-role">Senior Technical Advisor · May 2017 to Sep 2019</p>
+                  <p class="timeline-role">Senior Technical Advisor</p>
                 </div>
+                <time datetime="2017-05/2019-09">May 2017 to Sep 2019</time>
               </header>
-              <p class="timeline-compact">95%+ client satisfaction, team mentorship, ERP pilot, and knowledge base authorship. Foundation for customer-facing technical leadership.</p>
+              <ul class="timeline-details">
+                <li><strong>95%+ client satisfaction</strong>, 90% first-contact resolution, 100% issue closure</li>
+                <li>Mentored team on technical and customer-service skills</li>
+                <li>Piloted new ERP program; authored policies and knowledge base articles</li>
+              </ul>
             </div>
           </article>
         </div>
@@ -697,7 +700,7 @@ linux  networking  automation  leadership  ai</pre>
   <footer class="site-footer">
     <div class="container footer-inner">
       <p>&copy; <span id="year"></span> Chrysanthos Rouvellas.</p>
-      <p class="footer-hints" aria-hidden="true"><kbd>j</kbd>/<kbd>k</kbd> sections · <kbd>h</kbd>/<kbd>l</kbd> carousel · <kbd>gg</kbd> top · <kbd>G</kbd> bottom</p>
+      <p class="footer-hints" aria-hidden="true"><kbd>j</kbd>/<kbd>k</kbd> sections · <kbd>h</kbd>/<kbd>l</kbd> carousel · <kbd>g</kbd> top · <kbd>G</kbd> bottom</p>
     </div>
   </footer>
 

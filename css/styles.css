@@ -34,6 +34,7 @@
 
   --header-h: 72px;
   --container: min(1140px, calc(100% - 2.5rem));
+  --terminal-body-h: 320px;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -322,6 +323,21 @@ ul {
   align-items: center;
 }
 
+.hero-grid > * {
+  min-width: 0;
+}
+
+@media (min-width: 961px) {
+  .terminal-body {
+    font-size: 0.92rem;
+    padding: 1.5rem 1.5rem 1.75rem;
+  }
+
+  .terminal-command-output {
+    padding-left: 1.5rem;
+  }
+}
+
 .hero-eyebrow {
   display: inline-flex;
   align-items: center;
@@ -479,9 +495,14 @@ ul {
 /* Terminal */
 .hero-terminal {
   perspective: 1200px;
+  width: 100%;
+  min-width: 0;
 }
 
 .terminal-window {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   background: var(--bg-elevated);
   border: 2px solid rgba(0, 229, 160, 0.35);
   outline: 1px solid rgba(0, 229, 160, 0.12);
@@ -495,6 +516,8 @@ ul {
   transform: rotateY(-4deg) rotateX(2deg);
   transition: transform 0.6s var(--ease-out), border-color 0.25s;
   cursor: pointer;
+  height: var(--terminal-window-h, auto);
+  min-height: var(--terminal-window-h, auto);
 }
 
 .terminal-window:focus-visible {
@@ -510,9 +533,10 @@ ul {
 
 .terminal-tmux-tab {
   flex: 1;
-  padding: 0.4rem 0.5rem;
+  min-height: 2.25rem;
+  padding: 0.5rem 0.35rem;
   font-family: var(--font-terminal);
-  font-size: 0.62rem;
+  font-size: 0.68rem;
   color: var(--text-muted);
   text-transform: lowercase;
   background: transparent;
@@ -548,16 +572,26 @@ ul {
 }
 
 .terminal-body {
-  padding: 1.25rem 1.25rem 1.5rem;
+  flex: 1;
+  padding: 1.35rem 1.35rem 1.5rem;
   font-family: var(--font-terminal);
-  font-size: 0.82rem;
-  line-height: 1.7;
+  font-size: clamp(0.78rem, 0.72rem + 0.25vw, 0.92rem);
+  line-height: 1.65;
   background: rgba(0, 0, 0, 0.2);
+  height: var(--terminal-body-h);
+  min-height: var(--terminal-body-h);
+  max-height: var(--terminal-body-h);
+  overflow: hidden;
 }
 
 .terminal-line {
   white-space: pre-wrap;
   word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.terminal-command-line {
+  min-height: 1.65em;
 }
 
 .terminal-muted {
@@ -572,7 +606,8 @@ ul {
 }
 
 .terminal-command-output {
-  min-height: 1.4em;
+  min-height: var(--terminal-output-h, 4.5em);
+  margin-bottom: 0;
 }
 
 .prompt {
@@ -1717,18 +1752,42 @@ ul {
 }
 
 /* Responsive */
+@media (max-width: 1200px) {
+  .hero-grid {
+    gap: 2.5rem;
+  }
+}
+
 @media (max-width: 960px) {
+  :root {
+    --container: min(1140px, calc(100% - 1.75rem));
+  }
+
+  .hero {
+    min-height: auto;
+    padding: calc(var(--header-h) + 2rem) 0 3.5rem;
+  }
+
   .hero-grid {
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 2rem;
   }
 
   .hero-terminal {
     order: -1;
+    max-width: 100%;
   }
 
   .terminal-window {
     transform: none;
+  }
+
+  .hero-terminal:hover .terminal-window {
+    transform: none;
+  }
+
+  .section {
+    padding: 4.5rem 0;
   }
 
   .pillar-grid {
@@ -1767,6 +1826,7 @@ ul {
   .contact-panel {
     grid-template-columns: 1fr;
     padding: 2rem;
+    gap: 2rem;
   }
 
   .engagement-types {
@@ -1782,9 +1842,57 @@ ul {
     display: block;
     margin-bottom: 0.5rem;
   }
+
+  .timeline-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .timeline-header time {
+    font-size: 0.78rem;
+  }
 }
 
 @media (max-width: 768px) {
+  :root {
+    --container: min(1140px, calc(100% - 1.25rem));
+  }
+
+  .hero-title {
+    font-size: clamp(2.25rem, 10vw, 3.25rem);
+  }
+
+  .hero-tagline {
+    font-size: clamp(0.82rem, 3.6vw, 0.95rem);
+  }
+
+  .hero-lead {
+    font-size: 1rem;
+  }
+
+  .terminal-body {
+    padding: 1.1rem 1rem 1.25rem;
+    font-size: clamp(0.72rem, 3.2vw, 0.85rem);
+  }
+
+  .terminal-tmux-tab {
+    font-size: 0.6rem;
+    min-height: 2.5rem;
+  }
+
+  .terminal-hint {
+    font-size: 0.55rem;
+    padding: 0.45rem 0.5rem;
+  }
+
+  .section {
+    padding: 3.5rem 0;
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+
   .nav-toggle {
     display: flex;
   }
@@ -1838,7 +1946,23 @@ ul {
   }
 
   .hero-stats {
-    gap: 1.5rem;
+    gap: 1.25rem 1.5rem;
+  }
+
+  .stat dt {
+    font-size: 1.65rem;
+  }
+
+  .certs {
+    padding: 1.5rem;
+  }
+
+  .cost-carousel-viewport {
+    min-height: 9rem;
+  }
+
+  .cost-carousel-slide {
+    padding: 0.5rem 0.75rem;
   }
 
   .scroll-progress {
@@ -1850,6 +1974,24 @@ ul {
 }
 
 @media (max-width: 480px) {
+  .hero {
+    padding: calc(var(--header-h) + 1.5rem) 0 2.5rem;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .hero-stats .stat:last-child {
+    grid-column: 1 / -1;
+  }
+
   .impact-grid {
     grid-template-columns: 1fr;
   }
@@ -1860,6 +2002,14 @@ ul {
 
   .btn {
     width: 100%;
+  }
+
+  .contact-panel {
+    padding: 1.5rem;
+  }
+
+  .contact-link {
+    padding: 0.85rem 1rem;
   }
 
   .footer-inner {

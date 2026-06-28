@@ -151,7 +151,6 @@
       charIndex = 0;
       deleting = false;
       commandEl.textContent = "";
-      outputEl.hidden = true;
       outputEl.textContent = "";
       setPrompts(sessionHosts[session]);
 
@@ -166,16 +165,65 @@
 
     setTimeout(() => {
       uptimeEl.textContent = "30 years on Linux, load average: calm under pressure";
+      requestAnimationFrame(lockTerminalHeight);
     }, 800);
 
     function hideOutput() {
-      outputEl.hidden = true;
       outputEl.textContent = "";
     }
 
     function showOutput(text) {
       outputEl.textContent = text;
-      outputEl.hidden = false;
+    }
+
+    function lockTerminalHeight() {
+      if (!terminalBody || !terminalWindow) return;
+
+      terminalWindow.style.removeProperty("height");
+      terminalWindow.style.removeProperty("min-height");
+      terminalBody.style.removeProperty("height");
+      terminalBody.style.removeProperty("min-height");
+      terminalBody.style.removeProperty("max-height");
+
+      const allCommands = Object.values(commandSets).flat();
+      const savedCmd = commandEl.textContent;
+      const savedOut = outputEl.textContent;
+
+      let maxOutputLines = 1;
+      allCommands.forEach(({ output }) => {
+        maxOutputLines = Math.max(maxOutputLines, output.split("\n").length);
+      });
+
+      const lineHeight = parseFloat(getComputedStyle(terminalBody).lineHeight) || 22;
+      const outputHeight = Math.ceil(maxOutputLines * lineHeight + 4);
+      document.documentElement.style.setProperty("--terminal-output-h", `${outputHeight}px`);
+
+      let maxWindow = 0;
+      let bodyAtMax = 0;
+
+      const measure = (cmd, output) => {
+        commandEl.textContent = cmd;
+        outputEl.textContent = output;
+        const winH = terminalWindow.offsetHeight;
+        if (winH >= maxWindow) {
+          maxWindow = winH;
+          bodyAtMax = terminalBody.scrollHeight;
+        }
+      };
+
+      measure("", "");
+      allCommands.forEach(({ cmd, output }) => measure(cmd, output));
+
+      commandEl.textContent = savedCmd;
+      outputEl.textContent = savedOut;
+
+      document.documentElement.style.setProperty("--terminal-body-h", `${bodyAtMax}px`);
+      document.documentElement.style.setProperty("--terminal-window-h", `${maxWindow}px`);
+      terminalWindow.style.height = `${maxWindow}px`;
+      terminalWindow.style.minHeight = `${maxWindow}px`;
+      terminalBody.style.height = `${bodyAtMax}px`;
+      terminalBody.style.minHeight = `${bodyAtMax}px`;
+      terminalBody.style.maxHeight = `${bodyAtMax}px`;
     }
 
     function skipToNext() {
@@ -188,31 +236,6 @@
       cmdIndex = (cmdIndex + 1) % commands.length;
       charIndex = 0;
       typeLoop();
-    }
-
-    function lockTerminalHeight() {
-      if (!terminalBody || !terminalWindow) return;
-
-      const allCommands = Object.values(commandSets).flat();
-      const savedCmd = commandEl.textContent;
-      const savedOut = outputEl.textContent;
-      const savedHidden = outputEl.hidden;
-
-      let maxBody = terminalBody.scrollHeight;
-
-      allCommands.forEach(({ cmd, output }) => {
-        commandEl.textContent = cmd;
-        outputEl.textContent = output;
-        outputEl.hidden = false;
-        maxBody = Math.max(maxBody, terminalBody.scrollHeight);
-      });
-
-      commandEl.textContent = savedCmd;
-      outputEl.textContent = savedOut;
-      outputEl.hidden = savedHidden;
-
-      terminalBody.style.minHeight = `${maxBody}px`;
-      terminalWindow.style.minHeight = `${terminalWindow.offsetHeight}px`;
     }
 
     function typeLoop() {
@@ -258,8 +281,16 @@
     }
 
     setPrompts(sessionHosts[session]);
-    lockTerminalHeight();
-    window.addEventListener("resize", lockTerminalHeight);
+    requestAnimationFrame(() => {
+      lockTerminalHeight();
+    });
+    window.addEventListener("resize", () => {
+      requestAnimationFrame(lockTerminalHeight);
+    });
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(lockTerminalHeight);
+    }
 
     if (!prefersReducedMotion) {
       setTimeout(typeLoop, 1600);
@@ -728,7 +759,6 @@
   function initKeyboardNav() {
     const sections = ["top", "philosophy", "expertise", "highlights", "experience", "impact", "services", "contact"];
     const header = document.querySelector(".site-header");
-    let lastGAt = 0;
 
     function isTypingTarget() {
       const el = document.activeElement;
@@ -738,52 +768,57 @@
     }
 
     function headerOffset() {
-      return header ? header.offsetHeight + 48 : 120;
+      return header ? header.offsetHeight + 16 : 88;
     }
 
     function currentSectionIndex() {
+      if (window.scrollY < 100) {
+        return 0;
+      }
+
       const scrollPos = window.scrollY + headerOffset();
       let index = 0;
 
-      sections.forEach((id, i) => {
-        const el = id === "top" ? document.getElementById("top") : document.getElementById(id);
+      for (let i = 1; i < sections.length; i++) {
+        const el = document.getElementById(sections[i]);
         if (el && el.offsetTop <= scrollPos) {
           index = i;
         }
-      });
+      }
 
       return index;
     }
 
     function scrollToSection(id) {
-      const el = id === "top" ? document.getElementById("top") : document.getElementById(id);
+      if (id === "top") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+      const el = document.getElementById(id);
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
 
-    document.addEventListener("keydown", (event) => {
+    function handleSectionKey(event) {
+      if (event.ctrlKey || event.metaKey || event.altKey) return;
       if (isTypingTarget()) return;
 
-      if (event.key === "g") {
-        const now = Date.now();
-        if (now - lastGAt < 450) {
-          event.preventDefault();
-          scrollToSection("top");
-          lastGAt = 0;
-        } else {
-          lastGAt = now;
-        }
+      const code = event.code;
+
+      if (code === "KeyG" && !event.shiftKey) {
+        event.preventDefault();
+        scrollToSection("top");
         return;
       }
 
-      if (event.key === "G") {
+      if (code === "KeyG" && event.shiftKey) {
         event.preventDefault();
         window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
         return;
       }
 
-      if (event.key === "j") {
+      if (code === "KeyJ") {
         event.preventDefault();
         const index = currentSectionIndex();
         if (index < sections.length - 1) {
@@ -792,16 +827,17 @@
         return;
       }
 
-      if (event.key === "k") {
+      if (code === "KeyK") {
         event.preventDefault();
         const index = currentSectionIndex();
         if (index > 0) {
           scrollToSection(sections[index - 1]);
         }
       }
-    });
+    }
 
     window.addEventListener("keydown", (event) => {
+      handleSectionKey(event);
       handleCarouselKey(event);
     }, true);
   }
