@@ -23,10 +23,7 @@
 
   <title>Chrysanthos Rouvellas | Fundamentals Evangelist</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="fonts/fonts.css">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
@@ -36,14 +33,18 @@
     "@type": "Person",
     "name": "Chrysanthos Rouvellas",
     "jobTitle": "Lead Support Engineer",
-    "description": "Technical training and infrastructure consulting. Open to engagements in manufacturing, edge Linux, and enterprise infrastructure.",
+    "description": "Technical training and infrastructure consulting. SCADA and OT network integration, firewalls, ACLs, and enterprise Linux.",
     "email": "chrysanthos@rouvellas.com",
     "url": "https://rouvellas.com/",
     "sameAs": [
       "https://github.com/hoolies",
       "https://www.linkedin.com/in/crouvellas/"
     ],
-    "knowsAbout": ["Linux", "Networking", "AWS", "Python", "Infrastructure", "Technical Training", "Consulting", "BGP", "Automation"]
+    "knowsAbout": [
+      "Linux", "Systems", "Networking", "Automation", "Leadership", "AI",
+      "SCADA", "OT network integration", "Firewalls", "ACLs", "BGP", "VPN",
+      "Technical Training", "Consulting"
+    ]
   }
   </script>
 </head>
@@ -187,8 +188,8 @@
             </div>
             <h3>Technology aficionado</h3>
             <p>
-              From VPN sessions, BGP peering, and proxychains with socket-level debugging, to Linux fleets, container configuration,
-              databases, and AI business analytics. I connect layers 1 through 7, on-premise to cloud,
+              From VPN sessions, BGP peering, and proxychains with socket-level debugging, to SCADA and OT network integration,
+              firewall and ACL design, Linux fleets, and AI business analytics. I connect layers 1 through 7, on-premise to cloud,
               and engineering teams to the outcomes they actually need.
             </p>
           </article>
@@ -249,6 +250,7 @@
           <div class="skills-tree reveal" role="region" aria-label="Skills tree: Linux, Systems, Networking, Automation, Leadership, and AI">
             <div class="skills-tree-cmd"><span class="skills-tree-prompt">$</span> tree -d -C -L 2 chrysanthos/skills</div>
             <div class="skills-tree-output">
+              <!-- SKILLS-TREE:START -->
               <div class="tree-line"><span class="tree-branch">├── </span><span class="tree-dir">linux</span></div>
               <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">containers</span></div>
               <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">hardening</span></div>
@@ -298,6 +300,7 @@
               <div class="tree-line"><span class="tree-branch">    ├── </span><span class="tree-dir">mcp</span></div>
               <div class="tree-line"><span class="tree-branch">    ├── </span><span class="tree-dir">rag</span></div>
               <div class="tree-line"><span class="tree-branch">    └── </span><span class="tree-dir">agents</span></div>
+            <!-- SKILLS-TREE:END -->
             </div>
           </div>
         </div>
@@ -529,8 +532,8 @@
           <span class="section-label">Services</span>
           <h2 id="services-title">What I offer</h2>
           <p class="section-intro">
-            Hands-on consulting, structured training, and targeted programmes to cut recurring costs.
-            I work with manufacturing teams, SMBs, and enterprise infrastructure groups running Linux at the edge or at scale.
+            I work with teams integrating SCADA and OT networks — firewall rules, ACLs, and the Linux infrastructure behind them.
+            SMB and enterprise groups running at the edge or at scale.
           </p>
         </header>
 
@@ -634,8 +637,8 @@
             <h2 id="contact-title">How can I help — training, consulting, or both?</h2>
             <p>
               Need a trainer who builds curricula your org will actually use? A consultant who can untangle
-              Linux fleets, networks, manufacturing edge cases, or cloud architecture? Or both: assess, fix, and
-              leave your team smarter than they started? I work with manufacturing, SMB, and enterprise teams. I'd like to hear from you.
+              SCADA integration, firewall and ACL design, or Linux fleets at scale?
+              Or both: assess, fix, and leave your team smarter than they started? I'd like to hear from you.
             </p>
           </div>
 
@@ -678,6 +681,21 @@
     </section>
   </main>
 
+  <div class="shortcuts-overlay" id="shortcutsOverlay" hidden>
+    <div class="shortcuts-dialog" role="dialog" aria-modal="true" aria-labelledby="shortcutsTitle">
+      <h2 id="shortcutsTitle">Keyboard shortcuts</h2>
+      <ul class="shortcuts-list">
+        <li><kbd>j</kbd> / <kbd>k</kbd> next / previous section</li>
+        <li><kbd>h</kbd> / <kbd>l</kbd> carousel previous / next</li>
+        <li><kbd>g</kbd> scroll to top</li>
+        <li><kbd>G</kbd> scroll to bottom</li>
+        <li><kbd>?</kbd> show or hide this help</li>
+        <li><kbd>Esc</kbd> close</li>
+      </ul>
+      <button type="button" class="btn btn-ghost shortcuts-close" id="shortcutsClose">Close</button>
+    </div>
+  </div>
+
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true">
     <svg class="scroll-progress-svg" viewBox="0 0 44 44">
       <circle class="scroll-progress-bg" cx="22" cy="22" r="18"></circle>
@@ -689,7 +707,7 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <p>&copy; <span id="year"></span> Chrysanthos Rouvellas.</p>
-      <p class="footer-hints" aria-hidden="true"><kbd>j</kbd>/<kbd>k</kbd> sections · <kbd>h</kbd>/<kbd>l</kbd> carousel · <kbd>g</kbd> top · <kbd>G</kbd> bottom</p>
+      <p class="footer-hints" aria-hidden="true"><kbd>?</kbd> shortcuts · <kbd>j</kbd>/<kbd>k</kbd> sections · <kbd>h</kbd>/<kbd>l</kbd> carousel · <kbd>g</kbd> top · <kbd>G</kbd> bottom</p>
     </div>
   </footer>
 

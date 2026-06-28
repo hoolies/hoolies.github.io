@@ -1,0 +1,29 @@
+{
+  "path": "chrysanthos/skills",
+  "categories": [
+    {
+      "name": "linux",
+      "children": ["containers", "hardening", "patching", "networks"]
+    },
+    {
+      "name": "systems",
+      "children": ["edge", "on-prem", "lifecycle", "optimise", "disaster-recovery", "interconnected"]
+    },
+    {
+      "name": "networking",
+      "children": ["bgp", "vpn", "firewalls", "acls", "oob", "management", "sockets"]
+    },
+    {
+      "name": "automation",
+      "children": ["boto3", "ci-cd-pipelines", "python", "bash", "api", "infrastructure-as-code", "monitoring", "notifications", "paramiko"]
+    },
+    {
+      "name": "leadership",
+      "children": ["sop", "kpi", "change-management", "knowledge-base", "chaos-engineering", "pre-mortem", "rca"]
+    },
+    {
+      "name": "ai",
+      "children": ["integrations", "llm", "mcp", "rag", "agents"]
+    }
+  ]
+}

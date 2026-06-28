@@ -759,6 +759,8 @@
   function initKeyboardNav() {
     const sections = ["top", "philosophy", "expertise", "highlights", "experience", "impact", "services", "contact"];
     const header = document.querySelector(".site-header");
+    const shortcutsOverlay = document.getElementById("shortcutsOverlay");
+    const shortcutsClose = document.getElementById("shortcutsClose");
 
     function isTypingTarget() {
       const el = document.activeElement;
@@ -766,6 +768,22 @@
       const tag = el.tagName;
       return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || el.isContentEditable;
     }
+
+    function openShortcuts() {
+      if (!shortcutsOverlay) return;
+      shortcutsOverlay.hidden = false;
+      shortcutsClose?.focus();
+    }
+
+    function closeShortcuts() {
+      if (!shortcutsOverlay) return;
+      shortcutsOverlay.hidden = true;
+    }
+
+    shortcutsClose?.addEventListener("click", closeShortcuts);
+    shortcutsOverlay?.addEventListener("click", (event) => {
+      if (event.target === shortcutsOverlay) closeShortcuts();
+    });
 
     function headerOffset() {
       return header ? header.offsetHeight + 16 : 88;
@@ -836,9 +854,31 @@
       }
     }
 
+    function handleShortcutsKey(event) {
+      if (event.ctrlKey || event.metaKey || event.altKey) return;
+      if (isTypingTarget()) return;
+
+      if (event.code === "Slash" && event.shiftKey) {
+        event.preventDefault();
+        if (!shortcutsOverlay) return;
+        if (shortcutsOverlay.hidden) {
+          openShortcuts();
+        } else {
+          closeShortcuts();
+        }
+        return;
+      }
+
+      if (event.code === "Escape" && shortcutsOverlay && !shortcutsOverlay.hidden) {
+        event.preventDefault();
+        closeShortcuts();
+      }
+    }
+
     window.addEventListener("keydown", (event) => {
       handleSectionKey(event);
       handleCarouselKey(event);
+      handleShortcutsKey(event);
     }, true);
   }
 

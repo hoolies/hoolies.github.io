@@ -43,14 +43,6 @@
   box-sizing: border-box;
 }
 
-@font-face {
-  font-family: "Hack Nerd Font Mono";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("https://cdn.jsdelivr.net/gh/Nick2bad4u/nerd-fonts-woff2@v1.0.4/fonts/woff2/Hack/Regular/HackNerdFontMono-Regular.woff2") format("woff2");
-}
-
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-h) + 1rem);
@@ -1710,6 +1702,68 @@ ul {
   font-size: 1rem;
   font-weight: 600;
   color: var(--accent);
+}
+
+/* Keyboard shortcuts overlay */
+.shortcuts-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(6, 8, 12, 0.72);
+  backdrop-filter: blur(6px);
+}
+
+.shortcuts-overlay[hidden] {
+  display: none;
+}
+
+.shortcuts-dialog {
+  width: min(420px, 100%);
+  padding: 1.5rem 1.75rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+}
+
+.shortcuts-dialog h2 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.shortcuts-list {
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+.shortcuts-list li {
+  margin-bottom: 0.55rem;
+  font-family: var(--font-terminal);
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.shortcuts-list kbd {
+  display: inline-block;
+  min-width: 1.4rem;
+  padding: 0.12rem 0.4rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  color: var(--accent);
+  text-align: center;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.shortcuts-close {
+  width: 100%;
 }
 
 /* Footer */
