@@ -396,16 +396,19 @@
      ------------------------------------------------------------------ */
   function initNetworkDemo() {
     const clientEl = document.getElementById("clientConsole");
-    const serverEl = document.getElementById("serverConsole");
+    const prodEl = document.getElementById("prodConsole");
+    const dnsEl = document.getElementById("dnsConsole");
+    const dhcpEl = document.getElementById("dhcpConsole");
     const packet = document.getElementById("netPacket");
     const steps = document.querySelectorAll(".net-step");
-    if (!clientEl || !serverEl) return;
+    if (!clientEl || !prodEl || !dnsEl || !dhcpEl) return;
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const serverConsoles = [prodEl, dnsEl, dhcpEl];
 
     function clearConsoles() {
       clientEl.innerHTML = "";
-      serverEl.innerHTML = "";
+      serverConsoles.forEach((el) => { el.innerHTML = ""; });
       steps.forEach((s) => s.classList.remove("net-step-active"));
       if (packet) {
         packet.classList.remove("visible");
@@ -418,7 +421,7 @@
       line.className = `net-line ${className || ""}`.trim();
       line.textContent = text;
       container.appendChild(line);
-      while (container.children.length > 5) {
+      while (container.children.length > 4) {
         container.removeChild(container.firstChild);
       }
     }
@@ -438,17 +441,19 @@
     const sequence = [
       { delay: 0, fn: () => { setStep("dhcp"); addLine(clientEl, "$ sudo dhclient eth0", "cmd"); } },
       { delay: 600, fn: () => addLine(clientEl, "DHCPDISCOVER on eth0 to 255.255.255.255", "dim") },
-      { delay: 1100, fn: () => { movePacket("22%"); addLine(clientEl, "DHCPOFFER from 10.0.0.1", "info"); } },
-      { delay: 1600, fn: () => addLine(clientEl, "DHCPACK: lease 10.0.0.42/24 gw 10.0.0.1", "ok") },
+      { delay: 900, fn: () => addLine(dhcpEl, "[dhcpd] DISCOVER from 10.0.0.42 via eth0", "dim") },
+      { delay: 1100, fn: () => { movePacket("22%"); addLine(dhcpEl, "[dhcpd] OFFER 10.0.0.42 to 00:11:22:33:44:55", "info"); } },
+      { delay: 1300, fn: () => addLine(clientEl, "DHCPOFFER from 10.0.0.1", "info") },
+      { delay: 1600, fn: () => { addLine(dhcpEl, "[dhcpd] ACK 10.0.0.42 lease 86400s", "ok"); addLine(clientEl, "DHCPACK: lease 10.0.0.42/24 gw 10.0.0.1", "ok"); } },
       { delay: 2200, fn: () => { setStep("dns"); movePacket("50%"); addLine(clientEl, "$ ssh hoolies@prod.internal", "cmd"); } },
       { delay: 2700, fn: () => addLine(clientEl, "Resolving prod.internal...", "info") },
-      { delay: 3100, fn: () => addLine(serverEl, "[dns] query prod.internal A", "dim") },
-      { delay: 3400, fn: () => addLine(serverEl, "[dns] → 10.0.0.50", "info") },
+      { delay: 3000, fn: () => addLine(dnsEl, "[named] query prod.internal IN A", "dim") },
+      { delay: 3300, fn: () => addLine(dnsEl, "[named] → 10.0.0.50 (prod.internal)", "info") },
       { delay: 3700, fn: () => addLine(clientEl, "prod.internal: 10.0.0.50", "ok") },
       { delay: 4100, fn: () => { setStep("ssh"); movePacket("82%"); } },
-      { delay: 4400, fn: () => addLine(serverEl, "[sshd] conn from 10.0.0.42:44102", "dim") },
-      { delay: 4700, fn: () => addLine(serverEl, "[sshd] Accepted publickey for hoolies", "ok") },
-      { delay: 5000, fn: () => addLine(serverEl, "[sshd] session opened", "ok") },
+      { delay: 4400, fn: () => addLine(prodEl, "[sshd] conn from 10.0.0.42:44102", "dim") },
+      { delay: 4700, fn: () => addLine(prodEl, "[sshd] Accepted publickey for hoolies", "ok") },
+      { delay: 5000, fn: () => addLine(prodEl, "[sshd] session opened", "ok") },
       { delay: 5600, fn: () => addLine(clientEl, "Welcome to prod.internal", "ok") },
       { delay: 7000, fn: clearConsoles },
     ];
@@ -465,12 +470,234 @@
     if (prefersReducedMotion) {
       addLine(clientEl, "$ dhclient eth0 && ssh prod.internal", "cmd");
       addLine(clientEl, "lease 10.0.0.42 · DNS ok · connected", "ok");
-      addLine(serverEl, "[sshd] session opened for hoolies", "ok");
+      addLine(dhcpEl, "[dhcpd] ACK 10.0.0.42 lease 86400s", "ok");
+      addLine(dnsEl, "[named] → 10.0.0.50 (prod.internal)", "info");
+      addLine(prodEl, "[sshd] session opened for hoolies", "ok");
       setStep("ssh");
       return;
     }
 
     runSequence();
+  }
+
+  /* ------------------------------------------------------------------
+     Cost reduction carousel
+     ------------------------------------------------------------------ */
+  function initCostCarousel() {
+    const carousel = document.getElementById("costCarousel");
+    const track = document.getElementById("costCarouselTrack");
+    const viewport = document.getElementById("costCarouselViewport");
+    const nav = document.getElementById("costCarouselNav");
+    if (!carousel || !track || !nav) return;
+
+    const slides = [...track.querySelectorAll(".cost-carousel-slide")];
+    if (!slides.length) return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion) {
+      carousel.classList.add("cost-carousel-static");
+      return;
+    }
+
+    let current = 0;
+    let timer = null;
+    let animating = false;
+
+    slides.forEach((_, index) => {
+      const dot = document.createElement("span");
+      dot.className = "cost-carousel-dot";
+      dot.setAttribute("role", "tab");
+      dot.setAttribute("aria-label", `Cost reduction item ${index + 1} of ${slides.length}`);
+      dot.setAttribute("aria-selected", index === 0 ? "true" : "false");
+      nav.appendChild(dot);
+    });
+
+    const dots = [...nav.querySelectorAll(".cost-carousel-dot")];
+
+    function setActive(index) {
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("active", i === index);
+        dot.setAttribute("aria-selected", i === index ? "true" : "false");
+      });
+    }
+
+    function goTo(next, direction) {
+      if (animating || next === current) return false;
+      animating = true;
+
+      const outgoing = slides[current];
+      const incoming = slides[next];
+
+      outgoing.classList.remove("active");
+      outgoing.classList.add(direction >= 0 ? "exit-anticlockwise" : "exit-clockwise");
+
+      incoming.classList.remove("exit-anticlockwise", "exit-clockwise");
+      incoming.classList.add("active");
+
+      current = next;
+      setActive(current);
+
+      setTimeout(() => {
+        outgoing.classList.remove("exit-anticlockwise", "exit-clockwise");
+        animating = false;
+      }, 560);
+
+      return true;
+    }
+
+    function prev() {
+      const next = (current - 1 + slides.length) % slides.length;
+      if (goTo(next, -1)) restartTimer();
+    }
+
+    function next() {
+      const nextIndex = (current + 1) % slides.length;
+      if (goTo(nextIndex, 1)) restartTimer();
+    }
+
+    function restartTimer() {
+      if (timer) clearInterval(timer);
+      timer = setInterval(next, 5500);
+    }
+
+    carousel.carouselApi = { prev, next, goTo };
+    window.__costCarouselApi = carousel.carouselApi;
+
+    slides[0].classList.add("active");
+    setActive(0);
+    restartTimer();
+
+    const advanceOnClick = (event) => {
+      event.preventDefault();
+      next();
+    };
+
+    if (viewport) {
+      viewport.addEventListener("click", advanceOnClick);
+    }
+
+    nav.addEventListener("click", advanceOnClick);
+
+    carousel.addEventListener("mouseenter", () => {
+      if (timer) clearInterval(timer);
+    });
+
+    carousel.addEventListener("mouseleave", restartTimer);
+  }
+
+  function handleCarouselKey(event) {
+    if (event.ctrlKey || event.metaKey || event.altKey) return false;
+
+    const carousel = document.getElementById("costCarousel");
+    const api = carousel?.carouselApi || window.__costCarouselApi;
+    if (!api) return false;
+
+    const el = document.activeElement;
+    if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.tagName === "SELECT" || el.isContentEditable)) {
+      return false;
+    }
+
+    const code = event.code;
+    if (code === "KeyH" || code === "ArrowLeft") {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      api.prev();
+      return true;
+    }
+
+    if (code === "KeyL" || code === "ArrowRight") {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      api.next();
+      return true;
+    }
+
+    return false;
+  }
+
+  /* ------------------------------------------------------------------
+     Vim-style keyboard navigation
+     ------------------------------------------------------------------ */
+  function initKeyboardNav() {
+    const sections = ["top", "philosophy", "expertise", "highlights", "experience", "impact", "services", "contact"];
+    const header = document.querySelector(".site-header");
+    let lastGAt = 0;
+
+    function isTypingTarget() {
+      const el = document.activeElement;
+      if (!el) return false;
+      const tag = el.tagName;
+      return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || el.isContentEditable;
+    }
+
+    function headerOffset() {
+      return header ? header.offsetHeight + 48 : 120;
+    }
+
+    function currentSectionIndex() {
+      const scrollPos = window.scrollY + headerOffset();
+      let index = 0;
+
+      sections.forEach((id, i) => {
+        const el = id === "top" ? document.getElementById("top") : document.getElementById(id);
+        if (el && el.offsetTop <= scrollPos) {
+          index = i;
+        }
+      });
+
+      return index;
+    }
+
+    function scrollToSection(id) {
+      const el = id === "top" ? document.getElementById("top") : document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (isTypingTarget()) return;
+
+      if (event.key === "g") {
+        const now = Date.now();
+        if (now - lastGAt < 450) {
+          event.preventDefault();
+          scrollToSection("top");
+          lastGAt = 0;
+        } else {
+          lastGAt = now;
+        }
+        return;
+      }
+
+      if (event.key === "G") {
+        event.preventDefault();
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
+        return;
+      }
+
+      if (event.key === "j") {
+        event.preventDefault();
+        const index = currentSectionIndex();
+        if (index < sections.length - 1) {
+          scrollToSection(sections[index + 1]);
+        }
+        return;
+      }
+
+      if (event.key === "k") {
+        event.preventDefault();
+        const index = currentSectionIndex();
+        if (index > 0) {
+          scrollToSection(sections[index - 1]);
+        }
+      }
+    });
+
+    window.addEventListener("keydown", (event) => {
+      handleCarouselKey(event);
+    }, true);
   }
 
   /* ------------------------------------------------------------------
@@ -494,6 +721,8 @@
     initSectionNav();
     initScrollProgress();
     initNetworkDemo();
+    initCostCarousel();
+    initKeyboardNav();
     initContactForm();
     initFooter();
   });

@@ -126,7 +126,7 @@
             <div class="terminal-body" id="terminalBody">
               <div class="terminal-line terminal-muted">Linux prod 6.18.35_1 SMP PREEMPT_DYNAMIC x86_64 GNU/Linux</div>
               <div class="terminal-line"><span class="prompt">chrysanthos@prod ~ %</span> whoami</div>
-              <div class="terminal-line terminal-output">chrysanthos: trainer, consultant, fundamentals evangelist</div>
+              <div class="terminal-line terminal-output">chrysanthos: engineer, consultant, fundamentals evangelist</div>
               <div class="terminal-line"><span class="prompt">chrysanthos@prod ~ %</span> uptime</div>
               <div class="terminal-line terminal-output" id="terminalUptime">calculating kernel wisdom…</div>
               <div class="terminal-line"><span class="prompt">chrysanthos@prod ~ %</span> <span id="terminalCommand"></span><span class="terminal-cursor" aria-hidden="true">█</span></div>
@@ -140,12 +140,12 @@
     <section class="section philosophy" id="philosophy" aria-labelledby="philosophy-title">
       <div class="container">
         <header class="section-header reveal">
-          <span class="section-label">01 · Philosophy</span>
+          <span class="section-label">Philosophy</span>
           <h2 id="philosophy-title">Fundamentals first.<br>Everything else follows.</h2>
           <p class="section-intro">
             Tools change daily, especially now with AI, LLMs, and MCP. But the TCP/IP stack, Windows and Linux kernels,
-            and the core reasons systems and networks fail? That knowledge compounds forever.
-            I teach the way I engineer: from first principles, with patience, until it clicks.
+            and the reasons systems and networks fail? That knowledge compounds forever.
+            I demystify complex, high-risk infrastructure flaws, breaking them down into clear, actionable steps that eliminate outages and lower long-term maintenance costs.
           </p>
         </header>
 
@@ -191,7 +191,7 @@
     <section class="section expertise" id="expertise" aria-labelledby="expertise-title">
       <div class="container">
         <header class="section-header reveal">
-          <span class="section-label">02 · Expertise</span>
+          <span class="section-label">Expertise</span>
           <h2 id="expertise-title">The stack I live in</h2>
         </header>
 
@@ -220,9 +220,19 @@
               <div class="net-packet" id="netPacket"></div>
             </div>
 
-            <div class="net-host net-server">
-              <div class="net-host-label">prod.internal</div>
-              <div class="net-console" id="serverConsole"></div>
+            <div class="net-servers">
+              <div class="net-host net-server">
+                <div class="net-host-label">prod.internal</div>
+                <div class="net-console" id="prodConsole"></div>
+              </div>
+              <div class="net-host net-server net-server-dns">
+                <div class="net-host-label">dns · ns.internal</div>
+                <div class="net-console" id="dnsConsole"></div>
+              </div>
+              <div class="net-host net-server net-server-dhcp">
+                <div class="net-host-label">dhcp · 10.0.0.1</div>
+                <div class="net-console" id="dhcpConsole"></div>
+              </div>
             </div>
           </div>
 
@@ -243,7 +253,6 @@
               <ul class="skill-tags">
                 <li>BGP &amp; VPN</li>
                 <li>Firewalls &amp; ACLs</li>
-                <li>SCADA integration to your existing network</li>
                 <li>OOB management</li>
                 <li>Sockets</li>
               </ul>
@@ -257,14 +266,17 @@
                 <li>Python &amp; Bash</li>
                 <li>APIs &amp; backends</li>
                 <li>Infrastructure as code</li>
+                <li>Monitoring</li>
+                <li>Notifications</li>
+                <li>Event driven</li>
               </ul>
             </article>
 
             <article class="skill-card reveal">
               <h3>Leadership</h3>
               <ul class="skill-tags">
-                <li>Training design</li>
-                <li>Technical consulting</li>
+                <li>SOPs</li>
+                <li>KPI</li>
                 <li>Change management</li>
                 <li>Runbooks &amp; docs</li>
                 <li>Chaos engineering</li>
@@ -289,10 +301,10 @@
     <section class="section highlights" id="highlights" aria-labelledby="highlights-title">
       <div class="container">
         <header class="section-header reveal">
-          <span class="section-label">03 · Highlights</span>
-          <h2 id="highlights-title">What I build &amp; ship</h2>
+          <span class="section-label">Highlights</span>
+          <h2 id="highlights-title">What I build</h2>
           <p class="section-intro">
-            Open-source experiments, production tooling, and recent wins. The kind of work that backs up the terminal prompt.
+            Open-source experiments and production tooling. The kind of work that backs up the terminal prompt.
           </p>
         </header>
 
@@ -331,28 +343,6 @@
             </ul>
             <a href="https://github.com/hoolies/RTFM" class="highlight-link" target="_blank" rel="noopener noreferrer">View repo →</a>
           </article>
-
-          <article class="highlight-card reveal">
-            <span class="highlight-badge highlight-badge-work">Work</span>
-            <h3>Nautilus: AI &amp; Analytics</h3>
-            <p>Business analytics and AI tooling for org-wide needs at Amazon. Bridging data, infrastructure, and the teams who depend on both.</p>
-            <ul class="highlight-tags">
-              <li>AI tooling</li>
-              <li>Analytics</li>
-              <li>Python</li>
-            </ul>
-          </article>
-
-          <article class="highlight-card reveal">
-            <span class="highlight-badge highlight-badge-work">Work</span>
-            <h3>40% faster site recovery</h3>
-            <p>Recovery methodologies at Amazon YHM. Turning incident chaos into a repeatable playbook the whole node could execute.</p>
-            <ul class="highlight-tags">
-              <li>SCADA integration</li>
-              <li>Runbooks</li>
-              <li>Incident response</li>
-            </ul>
-          </article>
         </div>
       </div>
     </section>
@@ -360,7 +350,7 @@
     <section class="section experience" id="experience" aria-labelledby="experience-title">
       <div class="container">
         <header class="section-header reveal">
-          <span class="section-label">04 · Experience</span>
+          <span class="section-label">Experience</span>
           <h2 id="experience-title">Where I've shipped impact</h2>
         </header>
 
@@ -473,7 +463,7 @@
     <section class="section impact" id="impact" aria-labelledby="impact-title">
       <div class="container">
         <header class="section-header reveal">
-          <span class="section-label">05 · Impact</span>
+          <span class="section-label">Impact</span>
           <h2 id="impact-title">Numbers that tell the story</h2>
         </header>
 
@@ -518,10 +508,10 @@
     <section class="section services" id="services" aria-labelledby="services-title">
       <div class="container">
         <header class="section-header reveal">
-          <span class="section-label">06 · Services</span>
+          <span class="section-label">Services</span>
           <h2 id="services-title">What I offer</h2>
           <p class="section-intro">
-            Hands-on consulting, structured training, and targeted programmes to modernise infrastructure and cut recurring costs.
+            Hands-on consulting, structured training, and targeted programmes to cut recurring costs.
           </p>
         </header>
 
@@ -554,25 +544,49 @@
           </article>
 
           <article class="skill-card skill-card-wide reveal">
-            <h3>Modernisation</h3>
-            <ul class="skill-details">
-              <li>Migrate spreadsheets to databases and add APIs so AI and other programs can use them</li>
-              <li>Move obsolete software solutions to containers or VMs</li>
-            </ul>
-          </article>
-
-          <article class="skill-card skill-card-wide reveal">
             <h3>Cost reduction</h3>
-            <ul class="skill-details">
-              <li>Eliminate recurring tickets by deep diving to the root cause and solving them permanently</li>
-              <li>Review existing resources and optimise designs for redundant utilisation, or redesign where needed</li>
-              <li>Migrate services to open source alternatives where possible (e.g. SQL databases to PostgreSQL, Windows file server to Linux ZFS, Windows DHCP and DNS servers to Linux)</li>
-              <li>Migrate servers to cloud as serverless, or re-design existing cloud architecture to be more performant</li>
-              <li>Migrate resources from the cloud, on-prem, or hybrid</li>
-              <li>Set up PXE servers for seamless, fast re-provisioning</li>
-              <li>Build network automation platforms tracking device names, configurations, and firmware</li>
-              <li>Migrate VMware to KVM, virt, or other alternatives</li>
-            </ul>
+            <div class="cost-carousel" id="costCarousel" tabindex="0" aria-live="polite" aria-label="Cost reduction services. Click to advance. Use h and l keys to navigate.">
+              <div class="cost-carousel-viewport" id="costCarouselViewport">
+                <div class="cost-carousel-track" id="costCarouselTrack">
+                  <div class="cost-carousel-slide">
+                    <p>Eliminate recurring tickets by deep diving to the root cause and solving them permanently</p>
+                  </div>
+                  <div class="cost-carousel-slide">
+                    <p>Review existing resources and optimise designs for redundant utilisation, or redesign where needed</p>
+                  </div>
+                  <div class="cost-carousel-slide">
+                    <p>Move obsolete software solutions to containers or VMs</p>
+                  </div>
+                  <div class="cost-carousel-slide">
+                    <p>Migrate services to open source alternatives where possible:</p>
+                    <ul class="cost-carousel-sublist">
+                      <li>SQL databases to PostgreSQL</li>
+                      <li>Windows file server to Linux ZFS</li>
+                      <li>Windows DHCP and DNS servers to Linux</li>
+                    </ul>
+                  </div>
+                  <div class="cost-carousel-slide">
+                    <p>Migrate servers to cloud as serverless, or re-design existing cloud architecture to be more performant</p>
+                  </div>
+                  <div class="cost-carousel-slide">
+                    <p>Cloud is not always the answer, migrate resources off the cloud to on-prem or hybrid</p>
+                  </div>
+                  <div class="cost-carousel-slide">
+                    <p>Set up PXE servers for seamless and fast re-provisioning</p>
+                  </div>
+                  <div class="cost-carousel-slide">
+                    <p>Build network automation platforms tracking device names, configurations, and firmware. Providing history and analytics</p>
+                  </div>
+                  <div class="cost-carousel-slide">
+                    <p>Migrating off VMware, we will evaluate what alternative fits better your needs.</p>
+                  </div>
+                  <div class="cost-carousel-slide">
+                    <p>For manufacturing with Linux devices: create templates per station type, identify connected hardware, use udev rules for auto-healing, and autocut tickets when recovery fails</p>
+                  </div>
+                </div>
+              </div>
+              <div class="cost-carousel-nav" id="costCarouselNav" role="tablist" aria-label="Cost reduction slides"></div>
+            </div>
           </article>
         </div>
       </div>
@@ -582,8 +596,8 @@
       <div class="container">
         <div class="contact-panel reveal">
           <div class="contact-content">
-            <span class="section-label">07 · Contact</span>
-            <h2 id="contact-title">Training, consulting,<br>or both.</h2>
+            <span class="section-label">Contact</span>
+            <h2 id="contact-title">How can I help, training, consulting or both?</h2>
             <p>
               Need a trainer who builds curricula your org will actually use? A consultant who can untangle
               Linux fleets, networks, SCADA integration to your existing network, or cloud edge cases? Or someone to do both: assess, fix, and
@@ -640,8 +654,7 @@
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <p>&copy; <span id="year"></span> Chrysanthos Rouvellas. Built with fundamentals.</p>
-      <p class="footer-meta">Crafted for GitHub Pages · No frameworks, no bloat</p>
+      <p>&copy; <span id="year"></span> Chrysanthos Rouvellas.</p>
     </div>
   </footer>
 

@@ -624,7 +624,7 @@ ul {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  min-height: 320px;
+  min-height: 480px;
 }
 
 .net-host {
@@ -647,6 +647,19 @@ ul {
 
 .net-client .net-host-label { color: var(--accent-secondary); }
 .net-server .net-host-label { color: var(--accent); }
+.net-server-dns .net-host-label { color: var(--accent-secondary); }
+.net-server-dhcp .net-host-label { color: #c9a227; }
+
+.net-servers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.net-servers .net-console {
+  min-height: 4.25rem;
+  max-height: 4.25rem;
+}
 
 .net-console {
   min-height: 7.5rem;
@@ -774,6 +787,148 @@ ul {
 
 .skill-card-wide {
   grid-column: 1 / -1;
+}
+
+/* Cost reduction carousel */
+.cost-carousel {
+  position: relative;
+  margin-top: 0.25rem;
+  text-align: center;
+  outline: none;
+}
+
+.cost-carousel:focus-visible {
+  box-shadow: 0 0 0 2px var(--accent-dim);
+  border-radius: var(--radius-sm);
+}
+
+.cost-carousel-viewport {
+  position: relative;
+  min-height: 8rem;
+  overflow: hidden;
+  perspective: 900px;
+  cursor: pointer;
+}
+
+.cost-carousel-track {
+  position: relative;
+  min-height: 8rem;
+}
+
+.cost-carousel-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: rotate(10deg) translateX(2rem);
+  transition:
+    opacity 0.55s var(--ease-out),
+    transform 0.55s var(--ease-out),
+    visibility 0.55s;
+}
+
+.cost-carousel-slide p {
+  margin: 0;
+  max-width: 42rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.cost-carousel-sublist {
+  margin: 0.5rem auto 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.cost-carousel-sublist li {
+  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+.cost-carousel-sublist li::before {
+  content: "· ";
+  color: var(--accent);
+}
+
+.cost-carousel-sublist li:last-child {
+  margin-bottom: 0;
+}
+
+.cost-carousel-slide.active {
+  opacity: 1;
+  visibility: visible;
+  transform: rotate(0deg) translateX(0);
+}
+
+.cost-carousel-slide.exit-anticlockwise {
+  opacity: 0;
+  visibility: hidden;
+  transform: rotate(-10deg) translateX(-2rem);
+}
+
+.cost-carousel-slide.exit-clockwise {
+  opacity: 0;
+  visibility: hidden;
+  transform: rotate(10deg) translateX(2rem);
+}
+
+.cost-carousel-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.cost-carousel-dot {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.25s, transform 0.25s;
+  pointer-events: none;
+}
+
+.cost-carousel-dot.active {
+  background: var(--accent);
+  transform: scale(1.25);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.cost-carousel-static .cost-carousel-viewport {
+  min-height: auto;
+  overflow: visible;
+}
+
+.cost-carousel-static .cost-carousel-track {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: auto;
+}
+
+.cost-carousel-static .cost-carousel-slide {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.cost-carousel-static .cost-carousel-nav {
+  display: none;
 }
 
 .skill-details {
@@ -1293,6 +1448,10 @@ ul {
   .terminal-cursor,
   .net-packet {
     animation: none;
+  }
+
+  .cost-carousel-static .cost-carousel-slide {
+    transform: none;
   }
 
   .terminal-window {
