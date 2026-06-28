@@ -25,6 +25,7 @@
 
   --font-display: "Syne", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-terminal: "Hack Nerd Font Mono", "Hack Nerd Font", ui-monospace, monospace;
 
   --radius-sm: 8px;
   --radius-md: 14px;
@@ -39,6 +40,14 @@
 
 *, *::before, *::after {
   box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "Hack Nerd Font Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/gh/Nick2bad4u/nerd-fonts-woff2@v1.0.4/fonts/woff2/Hack/Regular/HackNerdFontMono-Regular.woff2") format("woff2");
 }
 
 html {
@@ -492,7 +501,7 @@ ul {
 
 .terminal-body {
   padding: 1.25rem 1.25rem 1.5rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-terminal);
   font-size: 0.82rem;
   line-height: 1.7;
   min-height: 220px;
@@ -642,7 +651,7 @@ ul {
 
 .net-host-label {
   padding: 0.45rem 0.75rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-terminal);
   font-size: 0.68rem;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -688,7 +697,7 @@ ul {
   max-height: 7.5rem;
   overflow: hidden;
   padding: 0.65rem 0.75rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-terminal);
   font-size: 0.68rem;
   line-height: 1.55;
 }
@@ -725,7 +734,7 @@ ul {
   flex-direction: column;
   align-items: center;
   gap: 0.35rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-terminal);
   font-size: 0.62rem;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -915,27 +924,13 @@ ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
   margin-top: 1rem;
   cursor: pointer;
 }
 
-.cost-carousel-counter {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  letter-spacing: 0.04em;
-  user-select: none;
-}
-
-.cost-carousel-counter .cost-carousel-current {
-  color: var(--accent);
-  font-weight: 600;
-}
-
 .cost-carousel-progress {
-  flex: 1;
-  max-width: 8rem;
+  width: 100%;
+  max-width: 10rem;
   height: 3px;
   background: var(--border);
   border-radius: 2px;

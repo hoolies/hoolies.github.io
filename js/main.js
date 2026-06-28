@@ -503,7 +503,6 @@
     const track = document.getElementById("costCarouselTrack");
     const viewport = document.getElementById("costCarouselViewport");
     const nav = document.getElementById("costCarouselNav");
-    const counterEl = document.getElementById("costCarouselCounter");
     if (!carousel || !track || !nav) return;
 
     const slides = [...track.querySelectorAll(".cost-carousel-slide")];
@@ -513,7 +512,6 @@
 
     if (prefersReducedMotion) {
       carousel.classList.add("cost-carousel-static");
-      if (counterEl) counterEl.textContent = `${slides.length} items`;
       return;
     }
 
@@ -523,22 +521,19 @@
 
     const progressBar = document.createElement("span");
     progressBar.className = "cost-carousel-progress";
-    progressBar.setAttribute("aria-hidden", "true");
+    progressBar.setAttribute("role", "progressbar");
+    progressBar.setAttribute("aria-valuemin", "0");
+    progressBar.setAttribute("aria-valuemax", String(slides.length));
+    progressBar.setAttribute("aria-valuenow", "1");
+    progressBar.setAttribute("aria-label", "Cost reduction slide progress");
     const progressFill = document.createElement("span");
     progressFill.className = "cost-carousel-progress-fill";
     progressBar.appendChild(progressFill);
-
-    if (counterEl) {
-      nav.insertBefore(progressBar, counterEl);
-    } else {
-      nav.appendChild(progressBar);
-    }
+    nav.appendChild(progressBar);
 
     function updateNav(index) {
-      if (counterEl) {
-        counterEl.innerHTML = `<span class="cost-carousel-current">${index + 1}</span> / ${slides.length}`;
-      }
       progressFill.style.width = `${((index + 1) / slides.length) * 100}%`;
+      progressBar.setAttribute("aria-valuenow", String(index + 1));
     }
 
     function setActive(index) {
