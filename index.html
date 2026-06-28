@@ -246,70 +246,59 @@
             </div>
           </div>
 
-          <div class="skills-ls reveal" aria-hidden="true">
-            <pre class="skills-ls-pre"><span class="skills-ls-prompt">$</span> ls skills/
-linux  networking  automation  leadership  ai</pre>
-          </div>
-
-          <div class="skills-grid">
-            <article class="skill-card reveal">
-              <h3>Linux &amp; Systems</h3>
-              <ul class="skill-tags">
-                <li>Kernel &amp; containers</li>
-                <li>Edge &amp; on-prem</li>
-                <li>Patch &amp; lifecycle</li>
-                <li>Disaster recovery</li>
-                <li>Performance tuning</li>
-              </ul>
-            </article>
-
-            <article class="skill-card reveal">
-              <h3>Networking</h3>
-              <ul class="skill-tags">
-                <li>BGP &amp; VPN</li>
-                <li>Firewalls &amp; ACLs</li>
-                <li>OT &amp; industrial networks</li>
-                <li>OOB management</li>
-                <li>Sockets</li>
-              </ul>
-            </article>
-
-            <article class="skill-card reveal">
-              <h3>Cloud &amp; Automation</h3>
-              <ul class="skill-tags">
-                <li>Boto3</li>
-                <li>CI/CD pipelines</li>
-                <li>Python &amp; Bash</li>
-                <li>APIs &amp; backends</li>
-                <li>Infrastructure as code</li>
-                <li>Monitoring</li>
-                <li>Notifications</li>
-                <li>Event driven</li>
-              </ul>
-            </article>
-
-            <article class="skill-card reveal">
-              <h3>Leadership</h3>
-              <ul class="skill-tags">
-                <li>SOPs</li>
-                <li>KPI</li>
-                <li>Change management</li>
-                <li>Runbooks &amp; docs</li>
-                <li>Chaos engineering</li>
-                <li>Pre-mortem</li>
-              </ul>
-            </article>
-
-            <article class="skill-card reveal">
-              <h3>AI</h3>
-              <ul class="skill-tags">
-                <li>Integrations</li>
-                <li>LLM</li>
-                <li>MCP</li>
-                <li>RAG</li>
-                <li>Agents</li>
-              </ul>
-            </article>
+          <div class="skills-tree reveal" role="region" aria-label="Skills tree: Linux, Systems, Networking, Automation, Leadership, and AI">
+            <div class="skills-tree-cmd"><span class="skills-tree-prompt">$</span> tree -d -C -L 2 chrysanthos/skills</div>
+            <div class="skills-tree-output">
+              <div class="tree-line"><span class="tree-branch">├── </span><span class="tree-dir">linux</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">containers</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">hardening</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">patching</span></div>
+              <div class="tree-line"><span class="tree-branch">│   └── </span><span class="tree-dir">networks</span></div>
+              <div class="tree-line tree-gap" aria-hidden="true"><span class="tree-branch">│</span></div>
+              <div class="tree-line"><span class="tree-branch">├── </span><span class="tree-dir">systems</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">edge</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">on-prem</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">lifecycle</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">optimise</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">disaster-recovery</span></div>
+              <div class="tree-line"><span class="tree-branch">│   └── </span><span class="tree-dir">interconnected</span></div>
+              <div class="tree-line tree-gap" aria-hidden="true"><span class="tree-branch">│</span></div>
+              <div class="tree-line"><span class="tree-branch">├── </span><span class="tree-dir">networking</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">bgp</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">vpn</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">firewalls</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">acls</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">oob</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">management</span></div>
+              <div class="tree-line"><span class="tree-branch">│   └── </span><span class="tree-dir">sockets</span></div>
+              <div class="tree-line tree-gap" aria-hidden="true"><span class="tree-branch">│</span></div>
+              <div class="tree-line"><span class="tree-branch">├── </span><span class="tree-dir">automation</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">boto3</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">ci-cd-pipelines</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">python</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">bash</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">api</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">infrastructure-as-code</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">monitoring</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">notifications</span></div>
+              <div class="tree-line"><span class="tree-branch">│   └── </span><span class="tree-dir">paramiko</span></div>
+              <div class="tree-line tree-gap" aria-hidden="true"><span class="tree-branch">│</span></div>
+              <div class="tree-line"><span class="tree-branch">├── </span><span class="tree-dir">leadership</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">sop</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">kpi</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">change-management</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">knowledge-base</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">chaos-engineering</span></div>
+              <div class="tree-line"><span class="tree-branch">│   ├── </span><span class="tree-dir">pre-mortem</span></div>
+              <div class="tree-line"><span class="tree-branch">│   └── </span><span class="tree-dir">rca</span></div>
+              <div class="tree-line tree-gap" aria-hidden="true"><span class="tree-branch">│</span></div>
+              <div class="tree-line"><span class="tree-branch">└── </span><span class="tree-dir">ai</span></div>
+              <div class="tree-line"><span class="tree-branch">    ├── </span><span class="tree-dir">integrations</span></div>
+              <div class="tree-line"><span class="tree-branch">    ├── </span><span class="tree-dir">llm</span></div>
+              <div class="tree-line"><span class="tree-branch">    ├── </span><span class="tree-dir">mcp</span></div>
+              <div class="tree-line"><span class="tree-branch">    ├── </span><span class="tree-dir">rag</span></div>
+              <div class="tree-line"><span class="tree-branch">    └── </span><span class="tree-dir">agents</span></div>
+            </div>
           </div>
         </div>
       </div>

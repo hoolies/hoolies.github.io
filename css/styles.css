@@ -851,8 +851,82 @@ ul {
   margin-bottom: 1.1rem;
 }
 
-.skills-ls {
-  display: none;
+.skills-tree {
+  grid-column: 2;
+  grid-row: 1;
+  padding: 1.1rem 1.25rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  font-family: var(--font-terminal);
+  font-weight: 400;
+}
+
+.skills-tree-cmd {
+  margin-bottom: 0.65rem;
+  font-size: clamp(0.72rem, 0.68rem + 0.2vw, 0.82rem);
+  color: var(--text-muted);
+}
+
+.skills-tree-prompt {
+  color: var(--accent);
+  margin-right: 0.35rem;
+}
+
+.skills-tree-output {
+  --tree-line-size: clamp(0.68rem, 0.64rem + 0.2vw, 0.78rem);
+  margin: 0;
+  font-size: var(--tree-line-size);
+  line-height: 1;
+  color: var(--text-secondary);
+  font-variant-ligatures: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.skills-tree-output .tree-line,
+.skills-tree-output .tree-branch,
+.skills-tree-output .tree-dir {
+  font-family: inherit;
+  font-weight: 400;
+  font-size: inherit;
+  line-height: 1;
+}
+
+.skills-tree-output .tree-line {
+  display: block;
+  margin: 0;
+  padding: 0;
+  height: var(--tree-line-size);
+  line-height: var(--tree-line-size);
+  white-space: pre;
+  overflow: hidden;
+}
+
+.skills-tree-output .tree-branch,
+.skills-tree-output .tree-dir {
+  display: inline-block;
+  height: var(--tree-line-size);
+  line-height: var(--tree-line-size);
+  vertical-align: top;
+}
+
+.skills-tree-output .tree-line.tree-gap {
+  pointer-events: none;
+  user-select: none;
+}
+
+.skills-tree-output .tree-branch {
+  color: var(--text-muted);
+}
+
+.skills-tree-output .tree-root {
+  color: var(--accent-secondary);
+  font-weight: 600;
+}
+
+.skills-tree-output .tree-dir {
+  color: var(--accent-secondary);
 }
 
 @media (min-width: 961px) {
@@ -861,40 +935,11 @@ ul {
     grid-row: 1 / span 2;
   }
 
-  .skills-ls {
-    display: block;
+  .skills-tree {
     grid-column: 2;
     grid-row: 1;
-    margin-bottom: 0;
+    align-self: start;
   }
-
-  .skills-grid {
-    grid-column: 2;
-    grid-row: 2;
-  }
-}
-
-.skills-ls-pre {
-  margin: 0;
-  padding: 0.85rem 1rem;
-  font-family: var(--font-terminal);
-  font-size: 0.72rem;
-  line-height: 1.55;
-  color: var(--text-muted);
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-}
-
-.skills-ls-prompt {
-  color: var(--accent);
-  margin-right: 0.35rem;
-}
-
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
 }
 
 /* Services */
@@ -1806,6 +1851,11 @@ ul {
     grid-template-columns: 1fr;
   }
 
+  .skills-tree {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
   .network-demo {
     min-height: auto;
   }
@@ -1933,8 +1983,8 @@ ul {
     text-align: center;
   }
 
-  .skills-grid {
-    grid-template-columns: 1fr;
+  .skills-tree {
+    padding: 1rem;
   }
 
   .highlight-grid {
