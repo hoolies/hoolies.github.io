@@ -90,50 +90,83 @@
     const uptimeEl = document.getElementById("terminalUptime");
     const commandEl = document.getElementById("terminalCommand");
     const outputEl = document.getElementById("terminalCommandOutput");
+    const terminalWindow = document.getElementById("terminalWindow");
+    const terminalBody = document.getElementById("terminalBody");
+    const tmuxBar = document.getElementById("terminalTmuxBar");
+    const promptEls = [
+      document.getElementById("terminalPrompt"),
+      document.getElementById("terminalPromptUptime"),
+      document.getElementById("terminalPromptCmd"),
+    ].filter(Boolean);
+
     if (!uptimeEl || !commandEl || !outputEl) return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const sessionHosts = {
+      incident: "prod",
+      consulting: "edge-yhm",
+      training: "workshop",
+    };
+
+    const commandSets = {
+      incident: [
+        { cmd: "ssh hoolies@prod -t 'tmux attach -t incident'", output: "[incident] 3 windows (attached)" },
+        { cmd: "ssh cisco-core01 'show ip bgp summary'", output: "BGP router identifier 10.0.0.1 · 42 routes · 0 flaps" },
+        { cmd: "nc -zv db.internal 22 443 5432", output: "Connection to db.internal 22 port [tcp/ssh] succeeded!" },
+        { cmd: 'sudo vim -q <(grep -rni "error" /var/log/)', output: "/var/log/syslog:1842: error: connection reset by peer" },
+        { cmd: "htop", output: "CPU ████░░░░░░ 42% · MEM 6.2G/16G · load 0.42 0.38 0.31" },
+      ],
+      consulting: [
+        { cmd: "ansible-playbook station-template.yml --limit cell-03", output: "PLAY RECAP · cell-03 · ok=14 changed=2 unreachable=0" },
+        { cmd: "udevadm monitor --environment", output: "UDEV [change] /devices/ttyUSB0 (usb) · scanner reattached" },
+        { cmd: "ssh juniper-fw01 'show route table inet.0'", output: "inet.0: 128 destinations, 512 routes (128 active)" },
+        { cmd: "proxychains4 -q curl ifconfig.me", output: "203.0.113.42" },
+        { cmd: "nmap -sV --top-ports 100 10.20.30.0/24", output: "Nmap done: 256 IP addresses · 12 hosts up · 0.84s elapsed" },
+      ],
+      training: [
+        { cmd: "cursor agent mcp list", output: "linux-docs · github · slack · 3 servers connected" },
+        { cmd: "man fundamentals", output: "NAME fundamentals — train from first principles, not slide decks" },
+        { cmd: "ssh workshop 'labctl status'", output: "lab: tcp-ip · 12 learners · module 3/8 active" },
+        { cmd: "git -C curriculum log --oneline -3", output: "a1b2c3d Add chaos engineering lab\nf4e5d6c BGP troubleshooting module\nc7d8e9f Linux namespaces workshop" },
+      ],
+    };
+
+    let session = "incident";
+    let commands = commandSets[session];
+    let cmdIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+    let typeTimer = null;
+
+    function setPrompts(host) {
+      const text = `chrysanthos@${host} ~ $`;
+      promptEls.forEach((el) => { el.textContent = text; });
+    }
+
+    function setSession(next) {
+      session = next;
+      commands = commandSets[session];
+      cmdIndex = 0;
+      charIndex = 0;
+      deleting = false;
+      commandEl.textContent = "";
+      outputEl.hidden = true;
+      outputEl.textContent = "";
+      setPrompts(sessionHosts[session]);
+
+      if (tmuxBar) {
+        tmuxBar.querySelectorAll(".terminal-tmux-tab").forEach((tab) => {
+          const active = tab.dataset.session === session;
+          tab.classList.toggle("active", active);
+          tab.setAttribute("aria-selected", active ? "true" : "false");
+        });
+      }
+    }
 
     setTimeout(() => {
       uptimeEl.textContent = "30 years on Linux, load average: calm under pressure";
     }, 800);
-
-    const commands = [
-      {
-        cmd: "proxychains4 -q curl ifconfig.me",
-        output: "203.0.113.42",
-      },
-      {
-        cmd: "ssh hoolies@prod -t 'tmux attach -t incident'",
-        output: "[incident] 3 windows (attached)",
-      },
-      {
-        cmd: "ssh cisco-core01 'show ip bgp summary'",
-        output: "BGP router identifier 10.0.0.1 · 42 routes · 0 flaps",
-      },
-      {
-        cmd: "ssh juniper-fw01 'show route table inet.0'",
-        output: "inet.0: 128 destinations, 512 routes (128 active)",
-      },
-      {
-        cmd: "nc -zv db.internal 22 443 5432",
-        output: "Connection to db.internal 22 port [tcp/ssh] succeeded!",
-      },
-      {
-        cmd: "nmap -sV --top-ports 100 10.20.30.0/24",
-        output: "Nmap done: 256 IP addresses · 12 hosts up · 0.84s elapsed",
-      },
-      {
-        cmd: "htop",
-        output: "CPU ████░░░░░░ 42% · MEM 6.2G/16G · load 0.42 0.38 0.31",
-      },
-      {
-        cmd: 'sudo vim -q <(grep -rni "error" /var/log/)',
-        output: '/var/log/syslog:1842: error: connection reset by peer',
-      },
-    ];
-
-    let cmdIndex = 0;
-    let charIndex = 0;
-    let deleting = false;
 
     function hideOutput() {
       outputEl.hidden = true;
@@ -145,6 +178,43 @@
       outputEl.hidden = false;
     }
 
+    function skipToNext() {
+      if (typeTimer) clearTimeout(typeTimer);
+      deleting = true;
+      charIndex = commands[cmdIndex].cmd.length;
+      hideOutput();
+      commandEl.textContent = "";
+      deleting = false;
+      cmdIndex = (cmdIndex + 1) % commands.length;
+      charIndex = 0;
+      typeLoop();
+    }
+
+    function lockTerminalHeight() {
+      if (!terminalBody || !terminalWindow) return;
+
+      const allCommands = Object.values(commandSets).flat();
+      const savedCmd = commandEl.textContent;
+      const savedOut = outputEl.textContent;
+      const savedHidden = outputEl.hidden;
+
+      let maxBody = terminalBody.scrollHeight;
+
+      allCommands.forEach(({ cmd, output }) => {
+        commandEl.textContent = cmd;
+        outputEl.textContent = output;
+        outputEl.hidden = false;
+        maxBody = Math.max(maxBody, terminalBody.scrollHeight);
+      });
+
+      commandEl.textContent = savedCmd;
+      outputEl.textContent = savedOut;
+      outputEl.hidden = savedHidden;
+
+      terminalBody.style.minHeight = `${maxBody}px`;
+      terminalWindow.style.minHeight = `${terminalWindow.offsetHeight}px`;
+    }
+
     function typeLoop() {
       const current = commands[cmdIndex];
 
@@ -154,24 +224,49 @@
 
         if (charIndex === current.cmd.length) {
           showOutput(current.output);
-          setTimeout(() => { deleting = true; typeLoop(); }, 2200);
+          typeTimer = setTimeout(() => { deleting = true; typeLoop(); }, prefersReducedMotion ? 4000 : 2200);
           return;
         }
       } else {
         hideOutput();
-        commandEl.textContent = current.cmd.slice(0, charIndex - 1);
-        charIndex--;
-
-        if (charIndex === 0) {
-          deleting = false;
-          cmdIndex = (cmdIndex + 1) % commands.length;
-        }
+        commandEl.textContent = "";
+        deleting = false;
+        cmdIndex = (cmdIndex + 1) % commands.length;
+        charIndex = 0;
+        typeTimer = setTimeout(typeLoop, 200);
+        return;
       }
 
-      setTimeout(typeLoop, deleting ? 35 : 65);
+      typeTimer = setTimeout(typeLoop, 65);
     }
 
-    setTimeout(typeLoop, 1600);
+    if (tmuxBar) {
+      tmuxBar.querySelectorAll(".terminal-tmux-tab").forEach((tab) => {
+        tab.addEventListener("click", (event) => {
+          event.stopPropagation();
+          setSession(tab.dataset.session || "incident");
+          lockTerminalHeight();
+          if (!prefersReducedMotion) typeLoop();
+        });
+      });
+    }
+
+    if (terminalWindow) {
+      terminalWindow.addEventListener("click", () => {
+        if (!prefersReducedMotion) skipToNext();
+      });
+    }
+
+    setPrompts(sessionHosts[session]);
+    lockTerminalHeight();
+    window.addEventListener("resize", lockTerminalHeight);
+
+    if (!prefersReducedMotion) {
+      setTimeout(typeLoop, 1600);
+    } else {
+      commandEl.textContent = commands[0].cmd;
+      showOutput(commands[0].output);
+    }
   }
 
   /* ------------------------------------------------------------------
@@ -403,7 +498,6 @@
     const prodEl = document.getElementById("prodConsole");
     const dnsEl = document.getElementById("dnsConsole");
     const dhcpEl = document.getElementById("dhcpConsole");
-    const packet = document.getElementById("netPacket");
     const steps = document.querySelectorAll(".net-step");
     const hostDhcp = document.querySelector(".net-server-dhcp");
     const hostDns = document.querySelector(".net-server-dns");
@@ -421,10 +515,6 @@
       Object.values(serverHosts).forEach((host) => {
         host?.classList.remove("net-host-active");
       });
-      if (packet) {
-        packet.classList.remove("visible");
-        packet.style.left = "12%";
-      }
     }
 
     function addLine(container, text, className) {
@@ -446,25 +536,19 @@
       });
     }
 
-    function movePacket(left) {
-      if (!packet) return;
-      packet.classList.add("visible");
-      packet.style.left = left;
-    }
-
     const sequence = [
       { delay: 0, fn: () => { setStep("dhcp"); addLine(clientEl, "$ sudo dhclient eth0", "cmd"); } },
       { delay: 600, fn: () => addLine(clientEl, "DHCPDISCOVER on eth0 to 255.255.255.255", "dim") },
       { delay: 900, fn: () => addLine(dhcpEl, "[dhcpd] DISCOVER from 10.0.0.42 via eth0", "dim") },
-      { delay: 1100, fn: () => { movePacket("22%"); addLine(dhcpEl, "[dhcpd] OFFER 10.0.0.42 to 00:11:22:33:44:55", "info"); } },
+      { delay: 1100, fn: () => addLine(dhcpEl, "[dhcpd] OFFER 10.0.0.42 to 00:11:22:33:44:55", "info") },
       { delay: 1300, fn: () => addLine(clientEl, "DHCPOFFER from 10.0.0.1", "info") },
       { delay: 1600, fn: () => { addLine(dhcpEl, "[dhcpd] ACK 10.0.0.42 lease 86400s", "ok"); addLine(clientEl, "DHCPACK: lease 10.0.0.42/24 gw 10.0.0.1", "ok"); } },
-      { delay: 2200, fn: () => { setStep("dns"); movePacket("50%"); addLine(clientEl, "$ ssh hoolies@prod.internal", "cmd"); } },
+      { delay: 2200, fn: () => { setStep("dns"); addLine(clientEl, "$ ssh hoolies@prod.internal", "cmd"); } },
       { delay: 2700, fn: () => addLine(clientEl, "Resolving prod.internal...", "info") },
       { delay: 3000, fn: () => addLine(dnsEl, "[named] query prod.internal IN A", "dim") },
       { delay: 3300, fn: () => addLine(dnsEl, "[named] → 10.0.0.50 (prod.internal)", "info") },
       { delay: 3700, fn: () => addLine(clientEl, "prod.internal: 10.0.0.50", "ok") },
-      { delay: 4100, fn: () => { setStep("ssh"); movePacket("82%"); } },
+      { delay: 4100, fn: () => setStep("ssh") },
       { delay: 4400, fn: () => addLine(prodEl, "[sshd] conn from 10.0.0.42:44102", "dim") },
       { delay: 4700, fn: () => addLine(prodEl, "[sshd] Accepted publickey for hoolies", "ok") },
       { delay: 5000, fn: () => addLine(prodEl, "[sshd] session opened", "ok") },
@@ -503,6 +587,7 @@
     const track = document.getElementById("costCarouselTrack");
     const viewport = document.getElementById("costCarouselViewport");
     const nav = document.getElementById("costCarouselNav");
+    const groupEl = document.getElementById("costCarouselGroup");
     if (!carousel || !track || !nav) return;
 
     const slides = [...track.querySelectorAll(".cost-carousel-slide")];
@@ -534,6 +619,9 @@
     function updateNav(index) {
       progressFill.style.width = `${((index + 1) / slides.length) * 100}%`;
       progressBar.setAttribute("aria-valuenow", String(index + 1));
+      if (groupEl && slides[index]?.dataset.group) {
+        groupEl.textContent = slides[index].dataset.group;
+      }
     }
 
     function setActive(index) {

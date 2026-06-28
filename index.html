@@ -6,20 +6,20 @@
   <meta name="description" content="Chrysanthos Rouvellas. Technical training and infrastructure consulting. Nearly 30 years of Linux, networking, and mentorship. Fundamentals evangelist and lead engineer.">
   <meta name="author" content="Chrysanthos Rouvellas">
   <meta name="theme-color" content="#0a0e14">
-  <link rel="canonical" href="https://hoolies.github.io/">
+  <link rel="canonical" href="https://rouvellas.com/">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Chrysanthos Rouvellas | Fundamentals Evangelist">
   <meta property="og:description" content="Technical training and infrastructure consulting from a fundamentals evangelist with nearly 30 years of Linux, networking, and hands-on engineering.">
-  <meta property="og:url" content="https://hoolies.github.io/">
-  <meta property="og:image" content="https://hoolies.github.io/og-image.png">
+  <meta property="og:url" content="https://rouvellas.com/">
+  <meta property="og:image" content="https://rouvellas.com/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Chrysanthos Rouvellas | Fundamentals Evangelist">
   <meta name="twitter:description" content="Technical training and infrastructure consulting. Nearly 30 years of Linux mastery, automation, and mentorship at scale.">
-  <meta name="twitter:image" content="https://hoolies.github.io/og-image.png">
+  <meta name="twitter:image" content="https://rouvellas.com/og-image.png">
 
   <title>Chrysanthos Rouvellas | Fundamentals Evangelist</title>
 
@@ -36,8 +36,9 @@
     "@type": "Person",
     "name": "Chrysanthos Rouvellas",
     "jobTitle": "Lead Support Engineer",
+    "description": "Technical training and infrastructure consulting. Open to engagements in manufacturing, edge Linux, and enterprise infrastructure.",
     "email": "chrysanthos@rouvellas.com",
-    "url": "https://hoolies.github.io/",
+    "url": "https://rouvellas.com/",
     "sameAs": [
       "https://github.com/hoolies",
       "https://www.linkedin.com/in/crouvellas/"
@@ -85,14 +86,15 @@
         <div class="hero-content">
           <p class="hero-eyebrow reveal">
             <span class="status-dot" aria-hidden="true"></span>
-            Available for training, consulting &amp; engineering
+            Open to training and consulting engagements
           </p>
           <h1 id="hero-title" class="hero-title reveal">
             <span class="hero-line">Chrysanthos</span>
             <span class="hero-line hero-line-accent">Rouvellas</span>
           </h1>
           <p class="hero-tagline reveal">
-            Lead Support Engineer · Systems architect · Fundamentals Evangelist · Technology Aficionado
+            Lead Support Engineer · Fundamentals Evangelist<br>
+            Systems architect · Technology aficionado
           </p>
           <p class="hero-services reveal" aria-label="Services offered">
             <span class="service-pill">Technical training</span>
@@ -105,6 +107,7 @@
           <div class="hero-actions reveal">
             <a href="#services" class="btn btn-primary">Training or consulting</a>
             <a href="#experience" class="btn btn-ghost">View my work</a>
+            <a href="resume.html" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">View CV</a>
           </div>
           <dl class="hero-stats reveal">
             <div class="stat">
@@ -113,7 +116,7 @@
             </div>
             <div class="stat">
               <dt><span data-count="95" data-suffix="%">0</span></dt>
-              <dd>Customer satisfaction</dd>
+              <dd>Client satisfaction (career)</dd>
             </div>
             <div class="stat">
               <dt><span data-count="60" data-suffix="%">0</span></dt>
@@ -123,16 +126,22 @@
         </div>
 
         <div class="hero-terminal reveal" aria-label="Interactive terminal preview">
-          <div class="terminal-window">
+          <div class="terminal-window" id="terminalWindow" tabindex="0" title="Click to run next command">
+            <div class="terminal-tmux-bar" id="terminalTmuxBar" role="tablist" aria-label="Terminal sessions">
+              <button type="button" class="terminal-tmux-tab active" data-session="incident" role="tab" aria-selected="true">incident</button>
+              <button type="button" class="terminal-tmux-tab" data-session="consulting" role="tab" aria-selected="false">consulting</button>
+              <button type="button" class="terminal-tmux-tab" data-session="training" role="tab" aria-selected="false">training</button>
+            </div>
             <div class="terminal-body" id="terminalBody">
               <div class="terminal-line terminal-muted">Linux prod 6.18.35_1 SMP PREEMPT_DYNAMIC x86_64 GNU/Linux</div>
-              <div class="terminal-line"><span class="prompt">chrysanthos@prod ~ %</span> whoami</div>
-              <div class="terminal-line terminal-output">chrysanthos: engineer, consultant, fundamentals evangelist</div>
-              <div class="terminal-line"><span class="prompt">chrysanthos@prod ~ %</span> uptime</div>
+              <div class="terminal-line"><span class="prompt" id="terminalPrompt">chrysanthos@prod ~ $</span> whoami</div>
+              <div class="terminal-line terminal-output">chrysanthos: engineer, consultant, fundamentals evangelist, technology aficionado</div>
+              <div class="terminal-line"><span class="prompt" id="terminalPromptUptime">chrysanthos@prod ~ $</span> uptime</div>
               <div class="terminal-line terminal-output" id="terminalUptime">calculating kernel wisdom…</div>
-              <div class="terminal-line"><span class="prompt">chrysanthos@prod ~ %</span> <span id="terminalCommand"></span><span class="terminal-cursor" aria-hidden="true">█</span></div>
+              <div class="terminal-line"><span class="prompt" id="terminalPromptCmd">chrysanthos@prod ~ $</span> <span id="terminalCommand"></span><span class="terminal-cursor" aria-hidden="true">█</span></div>
               <div class="terminal-line terminal-output terminal-command-output" id="terminalCommandOutput" hidden></div>
             </div>
+            <p class="terminal-hint">Click terminal or tabs to switch sessions</p>
           </div>
         </div>
       </div>
@@ -169,8 +178,8 @@
             <h3>Fundamentals evangelist</h3>
             <p>
               I never just hand someone a runbook and walk away. I teach people to act with purpose by understanding
-              the reasoning and impact behind every decision. I have trained countless individuals across diverse
-              technologies, including Linux script automation, APIs, databases, SQL, and AI.
+              the reasoning and impact behind every decision. I have trained engineers across Linux script automation,
+              APIs, databases, SQL, and AI.
             </p>
           </article>
 
@@ -180,7 +189,7 @@
             </div>
             <h3>Technology aficionado</h3>
             <p>
-              From VPN sessions, BGP peering, and proxychain sockets, to Linux fleets, container configuration,
+              From VPN sessions, BGP peering, and proxychains with socket-level debugging, to Linux fleets, container configuration,
               databases, and AI business analytics. I connect layers 1 through 7, on-premise to cloud,
               and engineering teams to the outcomes they actually need.
             </p>
@@ -221,7 +230,6 @@
                 <span class="net-step-dot"></span>
                 <span>SSH</span>
               </div>
-              <div class="net-packet" id="netPacket"></div>
             </div>
 
             <div class="net-servers">
@@ -238,6 +246,11 @@
                 <div class="net-console" id="prodConsole"></div>
               </div>
             </div>
+          </div>
+
+          <div class="skills-ls reveal" aria-hidden="true">
+            <pre class="skills-ls-pre"><span class="skills-ls-prompt">%</span> ls skills/
+linux  networking  automation  leadership  ai</pre>
           </div>
 
           <div class="skills-grid">
@@ -257,6 +270,7 @@
               <ul class="skill-tags">
                 <li>BGP &amp; VPN</li>
                 <li>Firewalls &amp; ACLs</li>
+                <li>OT &amp; industrial networks</li>
                 <li>OOB management</li>
                 <li>Sockets</li>
               </ul>
@@ -294,7 +308,8 @@
                 <li>Integrations</li>
                 <li>LLM</li>
                 <li>MCP</li>
-                <li>Chatbots</li>
+                <li>RAG</li>
+                <li>Agents</li>
               </ul>
             </article>
           </div>
@@ -317,18 +332,20 @@
             <span class="highlight-badge">Open source</span>
             <h3>Linux</h3>
             <p>Configs, notes, and deep dives from decades inside the kernel and userspace. Fundamentals documented, not just used.</p>
+            <p class="highlight-proof">30+ years of notes, configs, and troubleshooting patterns.</p>
             <ul class="highlight-tags">
               <li>Linux</li>
               <li>Sysadmin</li>
               <li>Docs</li>
             </ul>
-            <a href="https://github.com/hoolies/Linux" class="highlight-link" target="_blank" rel="noopener noreferrer">github.com/hoolies/Linux →</a>
+            <a href="https://github.com/hoolies/Linux" class="highlight-link" target="_blank" rel="noopener noreferrer">View repo →</a>
           </article>
 
           <article class="highlight-card reveal">
             <span class="highlight-badge">Open source</span>
             <h3>NetworkAutomationProject</h3>
             <p>Automation for network operations. Repeatable tooling that turns tribal knowledge into something a team can run at 3 AM.</p>
+            <p class="highlight-proof">Built for change windows, audits, and on-call at scale.</p>
             <ul class="highlight-tags">
               <li>Python</li>
               <li>Networking</li>
@@ -341,6 +358,7 @@
             <span class="highlight-badge">Open source</span>
             <h3>RTFM</h3>
             <p>Reference material and runbooks. The best engineers leave a trail others can follow when production gets interesting.</p>
+            <p class="highlight-proof">Runbooks and knowledge bases used across teams and shifts.</p>
             <ul class="highlight-tags">
               <li>Runbooks</li>
               <li>Knowledge base</li>
@@ -356,11 +374,13 @@
         <header class="section-header reveal">
           <span class="section-label">Experience</span>
           <h2 id="experience-title">Where I've shipped impact</h2>
+          <p class="section-intro experience-git-intro"><span class="git-prompt">$</span> git log --oneline --author=chrysanthos</p>
         </header>
 
-        <div class="experience-list">
+        <div class="experience-list experience-git-log">
           <article class="timeline-item reveal">
             <div class="timeline-card">
+              <span class="git-hash" aria-hidden="true">a4f91c2</span>
               <header class="timeline-header">
                 <div>
                   <h3>Amazon (OTS)</h3>
@@ -370,7 +390,7 @@
               </header>
               <ul class="timeline-details">
                 <li>L&amp;D team: mentor org-wide, create and approve training curricula</li>
-                <li>Nautilus team: business analytics and AI tooling for the Senior Leadership needs</li>
+                <li>Nautilus team: business analytics and AI tooling for senior leadership</li>
                 <li>Migrating infrastructure and networks Canada-wide</li>
               </ul>
             </div>
@@ -378,6 +398,7 @@
 
           <article class="timeline-item reveal">
             <div class="timeline-card">
+              <span class="git-hash" aria-hidden="true">b7e2d04</span>
               <header class="timeline-header">
                 <div>
                   <h3>Amazon (AR R&amp;D)</h3>
@@ -386,15 +407,16 @@
                 <time datetime="2024-06/2025-06">Jun 2024 to Jun 2025</time>
               </header>
               <ul class="timeline-details">
-                <li>Network consulting for SCADA integration to your existing network across workcells</li>
+                <li>Network consulting for SCADA and OT network integration across manufacturing workcells</li>
                 <li>Designed firewall rules and ACLs for on-prem ↔ cloud connectivity</li>
-                <li>Deployed, patched and maintain global Linux fleet, edge infrastructure and stations</li>
+                <li>Deployed, patched, and maintained global Linux fleet, edge infrastructure and stations</li>
               </ul>
             </div>
           </article>
 
           <article class="timeline-item reveal">
             <div class="timeline-card">
+              <span class="git-hash" aria-hidden="true">c3a881f</span>
               <header class="timeline-header">
                 <div>
                   <h3>Amazon (OTIE)</h3>
@@ -412,6 +434,7 @@
 
           <article class="timeline-item reveal">
             <div class="timeline-card">
+              <span class="git-hash" aria-hidden="true">d19f4e8</span>
               <header class="timeline-header">
                 <div>
                   <h3>Amazon</h3>
@@ -420,7 +443,7 @@
                 <time datetime="2021-09/2023-06">Sep 2021 to Jun 2023</time>
               </header>
               <ul class="timeline-details">
-                <li>SCADA integration to your existing network, Layers 1 to 3 diagnosis; vendor and cross-team coordination</li>
+                <li>OT/SCADA network integration, Layers 1 to 3 diagnosis; vendor and cross-team coordination</li>
                 <li>Created recovery methodologies, <strong>40% faster</strong> site restoration</li>
                 <li>Owned change management review and custom solutions for edge cases</li>
               </ul>
@@ -429,6 +452,7 @@
 
           <article class="timeline-item reveal">
             <div class="timeline-card">
+              <span class="git-hash" aria-hidden="true">e8b02a1</span>
               <header class="timeline-header">
                 <div>
                   <h3>Binatech System Solutions</h3>
@@ -444,20 +468,16 @@
             </div>
           </article>
 
-          <article class="timeline-item reveal">
+          <article class="timeline-item timeline-item-compact reveal">
             <div class="timeline-card">
+              <span class="git-hash" aria-hidden="true">f2c6d90</span>
               <header class="timeline-header">
                 <div>
                   <h3>Concentrix</h3>
-                  <p class="timeline-role">Senior Technical Advisor</p>
+                  <p class="timeline-role">Senior Technical Advisor · May 2017 to Sep 2019</p>
                 </div>
-                <time datetime="2017-05/2019-09">May 2017 to Sep 2019</time>
               </header>
-              <ul class="timeline-details">
-                <li><strong>95%+ satisfaction</strong>, 90% first-contact resolution, 100% issue closure</li>
-                <li>Mentored team on technical and customer-service skills</li>
-                <li>Piloted new ERP program; authored policies and knowledge base articles</li>
-              </ul>
+              <p class="timeline-compact">95%+ client satisfaction, team mentorship, ERP pilot, and knowledge base authorship. Foundation for customer-facing technical leadership.</p>
             </div>
           </article>
         </div>
@@ -490,15 +510,17 @@
           <div class="impact-card reveal">
             <span class="impact-value" data-count="95" data-suffix="%+">0</span>
             <span class="impact-label">Satisfaction</span>
-            <p>Customer service excellence at Concentrix</p>
+            <p>Client satisfaction across technical advisory roles</p>
           </div>
         </div>
 
         <div class="certs reveal">
           <h3 class="certs-title">Certifications &amp; Education</h3>
-          <ul class="cert-list">
+          <p class="certs-trust-intro"><span class="terminal-prompt">$</span> trust list</p>
+          <ul class="cert-list cert-list-trust">
             <li>ITIL 4 Foundation</li>
-            <li>CompTIA A+ · CySA+</li>
+            <li>CompTIA A+</li>
+            <li>CompTIA CySA+</li>
             <li>Cisco CCNA</li>
             <li>AWS Practitioner</li>
             <li>S905: ScyllaDB Essentials Track</li>
@@ -516,8 +538,16 @@
           <h2 id="services-title">What I offer</h2>
           <p class="section-intro">
             Hands-on consulting, structured training, and targeted programmes to cut recurring costs.
+            I work with manufacturing teams, SMBs, and enterprise infrastructure groups running Linux at the edge or at scale.
           </p>
         </header>
+
+        <ul class="engagement-types reveal">
+          <li><strong>Workshop</strong> half-day to multi-day, on-site or remote</li>
+          <li><strong>Assessment</strong> 1 to 2 week infrastructure or network review</li>
+          <li><strong>Engagement</strong> project-based consulting with handover</li>
+          <li><strong>Retainer</strong> ongoing advisory and escalation support</li>
+        </ul>
 
         <div class="services-grid">
           <article class="skill-card reveal">
@@ -551,19 +581,20 @@
 
           <article class="skill-card skill-card-wide reveal">
             <h3>Cost reduction</h3>
+            <p class="cost-carousel-group" id="costCarouselGroup" aria-live="polite">Tickets &amp; root cause</p>
             <div class="cost-carousel" id="costCarousel" tabindex="0" aria-live="polite" aria-label="Cost reduction services. Click to advance. Use h and l keys to navigate.">
               <div class="cost-carousel-viewport" id="costCarouselViewport">
                 <div class="cost-carousel-track" id="costCarouselTrack">
-                  <div class="cost-carousel-slide">
+                  <div class="cost-carousel-slide" data-group="Tickets &amp; root cause">
                     <p>Eliminate recurring tickets by deep diving to the root cause and solving them permanently</p>
                   </div>
-                  <div class="cost-carousel-slide">
-                    <p>Review existing resources and optimise designs for redundant utilisation, or redesign where needed</p>
+                  <div class="cost-carousel-slide" data-group="Optimisation">
+                    <p>Review existing resources and optimise redundant capacity, or redesign where needed</p>
                   </div>
-                  <div class="cost-carousel-slide">
+                  <div class="cost-carousel-slide" data-group="Migration">
                     <p>Move obsolete software solutions to containers or VMs</p>
                   </div>
-                  <div class="cost-carousel-slide">
+                  <div class="cost-carousel-slide" data-group="Migration">
                     <p>Migrate services to open source alternatives where possible:</p>
                     <ul class="cost-carousel-sublist">
                       <li>SQL databases to PostgreSQL</li>
@@ -571,22 +602,22 @@
                       <li>Windows DHCP and DNS servers to Linux</li>
                     </ul>
                   </div>
-                  <div class="cost-carousel-slide">
+                  <div class="cost-carousel-slide" data-group="Cloud">
                     <p>Migrate servers to cloud as serverless, or re-design existing cloud architecture to be more performant</p>
                   </div>
-                  <div class="cost-carousel-slide">
+                  <div class="cost-carousel-slide" data-group="Cloud">
                     <p>Cloud is not always the answer, migrate resources off the cloud to on-prem or hybrid</p>
                   </div>
-                  <div class="cost-carousel-slide">
+                  <div class="cost-carousel-slide" data-group="Infrastructure">
                     <p>Set up PXE servers for seamless and fast re-provisioning</p>
                   </div>
-                  <div class="cost-carousel-slide">
-                    <p>Build network automation platforms tracking device names, configurations, and firmware. Providing history and analytics</p>
+                  <div class="cost-carousel-slide" data-group="Infrastructure">
+                    <p>Build network automation platforms tracking device names, configurations, and firmware, with history and analytics</p>
                   </div>
-                  <div class="cost-carousel-slide">
+                  <div class="cost-carousel-slide" data-group="Platform">
                     <p>Migrating off VMware? We evaluate which alternative fits your needs best.</p>
                   </div>
-                  <div class="cost-carousel-slide">
+                  <div class="cost-carousel-slide" data-group="Manufacturing">
                     <p>Manufacturing on Linux devices:</p>
                     <ul class="cost-carousel-sublist">
                       <li>Station-type templates for consistent provisioning</li>
@@ -608,11 +639,11 @@
         <div class="contact-panel reveal">
           <div class="contact-content">
             <span class="section-label">Contact</span>
-            <h2 id="contact-title">How can I help, training, consulting or both?</h2>
+            <h2 id="contact-title">How can I help — training, consulting, or both?</h2>
             <p>
               Need a trainer who builds curricula your org will actually use? A consultant who can untangle
               Linux fleets, networks, manufacturing edge cases, or cloud architecture? Or both: assess, fix, and
-              leave your team smarter than they started? I'd like to hear from you.
+              leave your team smarter than they started? I work with manufacturing, SMB, and enterprise teams. I'd like to hear from you.
             </p>
           </div>
 
@@ -666,6 +697,7 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <p>&copy; <span id="year"></span> Chrysanthos Rouvellas.</p>
+      <p class="footer-hints" aria-hidden="true"><kbd>j</kbd>/<kbd>k</kbd> sections · <kbd>h</kbd>/<kbd>l</kbd> carousel · <kbd>gg</kbd> top · <kbd>G</kbd> bottom</p>
     </div>
   </footer>
 
