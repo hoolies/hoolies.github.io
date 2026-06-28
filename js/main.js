@@ -371,6 +371,7 @@
   function initScrollProgress() {
     const ring = document.getElementById("scrollProgressRing");
     const label = document.getElementById("scrollProgressLabel");
+    const widget = document.getElementById("scrollProgress");
     if (!ring) return;
 
     const circumference = 2 * Math.PI * 18;
@@ -383,6 +384,9 @@
       ring.style.strokeDashoffset = String(circumference * (1 - progress));
       if (label) {
         label.textContent = `${Math.round(progress * 100)}%`;
+      }
+      if (widget) {
+        widget.classList.toggle("near-end", progress > 0.92);
       }
     }
 
@@ -401,15 +405,22 @@
     const dhcpEl = document.getElementById("dhcpConsole");
     const packet = document.getElementById("netPacket");
     const steps = document.querySelectorAll(".net-step");
+    const hostDhcp = document.querySelector(".net-server-dhcp");
+    const hostDns = document.querySelector(".net-server-dns");
+    const hostProd = document.querySelector(".net-server-prod");
     if (!clientEl || !prodEl || !dnsEl || !dhcpEl) return;
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const serverConsoles = [prodEl, dnsEl, dhcpEl];
+    const serverHosts = { dhcp: hostDhcp, dns: hostDns, ssh: hostProd };
 
     function clearConsoles() {
       clientEl.innerHTML = "";
       serverConsoles.forEach((el) => { el.innerHTML = ""; });
       steps.forEach((s) => s.classList.remove("net-step-active"));
+      Object.values(serverHosts).forEach((host) => {
+        host?.classList.remove("net-host-active");
+      });
       if (packet) {
         packet.classList.remove("visible");
         packet.style.left = "12%";
@@ -429,6 +440,9 @@
     function setStep(name) {
       steps.forEach((s) => {
         s.classList.toggle("net-step-active", s.dataset.step === name);
+      });
+      Object.entries(serverHosts).forEach(([step, host]) => {
+        host?.classList.toggle("net-host-active", step === name);
       });
     }
 
@@ -474,6 +488,7 @@
       addLine(dnsEl, "[named] → 10.0.0.50 (prod.internal)", "info");
       addLine(prodEl, "[sshd] session opened for hoolies", "ok");
       setStep("ssh");
+      hostProd?.classList.add("net-host-active");
       return;
     }
 
@@ -488,6 +503,7 @@
     const track = document.getElementById("costCarouselTrack");
     const viewport = document.getElementById("costCarouselViewport");
     const nav = document.getElementById("costCarouselNav");
+    const counterEl = document.getElementById("costCarouselCounter");
     if (!carousel || !track || !nav) return;
 
     const slides = [...track.querySelectorAll(".cost-carousel-slide")];
@@ -497,6 +513,7 @@
 
     if (prefersReducedMotion) {
       carousel.classList.add("cost-carousel-static");
+      if (counterEl) counterEl.textContent = `${slides.length} items`;
       return;
     }
 
@@ -504,22 +521,28 @@
     let timer = null;
     let animating = false;
 
-    slides.forEach((_, index) => {
-      const dot = document.createElement("span");
-      dot.className = "cost-carousel-dot";
-      dot.setAttribute("role", "tab");
-      dot.setAttribute("aria-label", `Cost reduction item ${index + 1} of ${slides.length}`);
-      dot.setAttribute("aria-selected", index === 0 ? "true" : "false");
-      nav.appendChild(dot);
-    });
+    const progressBar = document.createElement("span");
+    progressBar.className = "cost-carousel-progress";
+    progressBar.setAttribute("aria-hidden", "true");
+    const progressFill = document.createElement("span");
+    progressFill.className = "cost-carousel-progress-fill";
+    progressBar.appendChild(progressFill);
 
-    const dots = [...nav.querySelectorAll(".cost-carousel-dot")];
+    if (counterEl) {
+      nav.insertBefore(progressBar, counterEl);
+    } else {
+      nav.appendChild(progressBar);
+    }
+
+    function updateNav(index) {
+      if (counterEl) {
+        counterEl.innerHTML = `<span class="cost-carousel-current">${index + 1}</span> / ${slides.length}`;
+      }
+      progressFill.style.width = `${((index + 1) / slides.length) * 100}%`;
+    }
 
     function setActive(index) {
-      dots.forEach((dot, i) => {
-        dot.classList.toggle("active", i === index);
-        dot.setAttribute("aria-selected", i === index ? "true" : "false");
-      });
+      updateNav(index);
     }
 
     function goTo(next, direction) {

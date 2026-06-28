@@ -193,6 +193,9 @@
         <header class="section-header reveal">
           <span class="section-label">Expertise</span>
           <h2 id="expertise-title">The stack I live in</h2>
+          <p class="section-intro">
+            From kernel to BGP, automation to AI. The same fundamentals, applied at every layer.
+          </p>
         </header>
 
         <div class="skills-layout">
@@ -221,17 +224,17 @@
             </div>
 
             <div class="net-servers">
-              <div class="net-host net-server">
-                <div class="net-host-label">prod.internal</div>
-                <div class="net-console" id="prodConsole"></div>
+              <div class="net-host net-server net-server-dhcp">
+                <div class="net-host-label">dhcp · 10.0.0.1</div>
+                <div class="net-console" id="dhcpConsole"></div>
               </div>
               <div class="net-host net-server net-server-dns">
                 <div class="net-host-label">dns · ns.internal</div>
                 <div class="net-console" id="dnsConsole"></div>
               </div>
-              <div class="net-host net-server net-server-dhcp">
-                <div class="net-host-label">dhcp · 10.0.0.1</div>
-                <div class="net-console" id="dhcpConsole"></div>
+              <div class="net-host net-server net-server-prod">
+                <div class="net-host-label">prod.internal</div>
+                <div class="net-console" id="prodConsole"></div>
               </div>
             </div>
           </div>
@@ -518,6 +521,7 @@
         <div class="services-grid">
           <article class="skill-card reveal">
             <h3>Consulting</h3>
+            <p class="skill-card-lead">Assess, design, and fix infrastructure your team can run without me in the room.</p>
             <ul class="skill-tags">
               <li>Linux</li>
               <li>Infrastructure</li>
@@ -530,6 +534,7 @@
 
           <article class="skill-card reveal">
             <h3>Training</h3>
+            <p class="skill-card-lead">Curricula and workshops built from first principles, not slide decks.</p>
             <ul class="skill-tags">
               <li>Development environment</li>
               <li>Automation</li>
@@ -578,14 +583,21 @@
                     <p>Build network automation platforms tracking device names, configurations, and firmware. Providing history and analytics</p>
                   </div>
                   <div class="cost-carousel-slide">
-                    <p>Migrating off VMware, we will evaluate what alternative fits better your needs.</p>
+                    <p>Migrating off VMware? We evaluate which alternative fits your needs best.</p>
                   </div>
                   <div class="cost-carousel-slide">
-                    <p>For manufacturing with Linux devices: create templates per station type, identify connected hardware, use udev rules for auto-healing, and autocut tickets when recovery fails</p>
+                    <p>Manufacturing on Linux devices:</p>
+                    <ul class="cost-carousel-sublist">
+                      <li>Station-type templates for consistent provisioning</li>
+                      <li>Hardware discovery and udev rules for auto-healing</li>
+                      <li>Auto-cut tickets when recovery fails</li>
+                    </ul>
                   </div>
                 </div>
               </div>
-              <div class="cost-carousel-nav" id="costCarouselNav" role="tablist" aria-label="Cost reduction slides"></div>
+              <div class="cost-carousel-nav" id="costCarouselNav" role="tablist" aria-label="Cost reduction slides">
+                <span class="cost-carousel-counter" id="costCarouselCounter" aria-live="polite">1 / 10</span>
+              </div>
             </div>
           </article>
         </div>
@@ -600,7 +612,7 @@
             <h2 id="contact-title">How can I help, training, consulting or both?</h2>
             <p>
               Need a trainer who builds curricula your org will actually use? A consultant who can untangle
-              Linux fleets, networks, SCADA integration to your existing network, or cloud edge cases? Or someone to do both: assess, fix, and
+              Linux fleets, networks, manufacturing edge cases, or cloud architecture? Or both: assess, fix, and
               leave your team smarter than they started? I'd like to hear from you.
             </p>
           </div>
