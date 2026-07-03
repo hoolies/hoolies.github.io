@@ -883,6 +883,77 @@
   }
 
   /* ------------------------------------------------------------------
+     Scroll depth — hero fade + subtle terminal tilt
+     ------------------------------------------------------------------ */
+  function initParallax() {
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const hero = document.querySelector(".hero");
+    const heroTerminal = document.querySelector(".hero-terminal");
+    const terminalWindow = document.getElementById("terminalWindow");
+    let ticking = false;
+
+    function clearEffects() {
+      document.documentElement.style.setProperty("--hero-progress", "0");
+      heroTerminal?.style.removeProperty("--mouse-tilt-x");
+      heroTerminal?.style.removeProperty("--mouse-tilt-y");
+    }
+
+    function updateScroll() {
+      if (!hero || motionQuery.matches) {
+        ticking = false;
+        return;
+      }
+
+      const rect = hero.getBoundingClientRect();
+      const scrollRange = Math.max(hero.offsetHeight - window.innerHeight * 0.35, 1);
+      const scrolled = Math.min(Math.max(-rect.top, 0), scrollRange);
+      const progress = scrolled / scrollRange;
+
+      document.documentElement.style.setProperty("--hero-progress", progress.toFixed(4));
+      ticking = false;
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateScroll);
+      }
+    }
+
+    function onHeroMove(event) {
+      if (!heroTerminal || !terminalWindow || motionQuery.matches) return;
+
+      const rect = heroTerminal.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+      const tiltX = Math.max(-2.5, Math.min(2.5, -y * 5));
+      const tiltY = Math.max(-2.5, Math.min(2.5, x * 5));
+
+      heroTerminal.style.setProperty("--mouse-tilt-x", `${tiltX}deg`);
+      heroTerminal.style.setProperty("--mouse-tilt-y", `${tiltY}deg`);
+    }
+
+    function onHeroLeave() {
+      heroTerminal?.style.setProperty("--mouse-tilt-x", "0deg");
+      heroTerminal?.style.setProperty("--mouse-tilt-y", "0deg");
+    }
+
+    motionQuery.addEventListener("change", (event) => {
+      if (event.matches) clearEffects();
+      else updateScroll();
+    });
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    heroTerminal?.addEventListener("mousemove", onHeroMove, { passive: true });
+    heroTerminal?.addEventListener("mouseleave", onHeroLeave, { passive: true });
+
+    if (!motionQuery.matches) {
+      updateScroll();
+    }
+  }
+
+  /* ------------------------------------------------------------------
      Footer year
      ------------------------------------------------------------------ */
   function initFooter() {
@@ -906,6 +977,7 @@
     initCostCarousel();
     initKeyboardNav();
     initContactForm();
+    initParallax();
     initFooter();
   });
 })();
