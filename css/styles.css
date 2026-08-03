@@ -662,6 +662,16 @@ ul {
   color: var(--text-secondary);
 }
 
+.section-intro a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.section-intro a:hover {
+  color: var(--text-primary);
+}
+
 /* Philosophy */
 .philosophy {
   background: linear-gradient(180deg, transparent, rgba(0, 229, 160, 0.03) 50%, transparent);
@@ -1234,8 +1244,25 @@ ul {
 
 .highlight-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.25rem;
+}
+
+.highlight-status {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 1.5rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.highlight-status-error a {
+  color: var(--accent);
+}
+
+.highlight-status-error a:hover {
+  color: var(--text-primary);
 }
 
 .highlight-card {
@@ -1837,6 +1864,8 @@ ul {
 .reveal:nth-child(2) { transition-delay: 0.08s; }
 .reveal:nth-child(3) { transition-delay: 0.16s; }
 .reveal:nth-child(4) { transition-delay: 0.24s; }
+.reveal:nth-child(5) { transition-delay: 0.32s; }
+.reveal:nth-child(6) { transition-delay: 0.4s; }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
@@ -1926,7 +1955,7 @@ ul {
   }
 
   .highlight-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   }
 
   .services-grid {

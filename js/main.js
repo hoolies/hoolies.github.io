@@ -303,23 +303,114 @@
   /* ------------------------------------------------------------------
      Scroll reveal
      ------------------------------------------------------------------ */
+  let revealObserver = null;
+
+  function observeReveal(elements) {
+    if (!elements || !elements.length) return;
+
+    if (!revealObserver) {
+      revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+      );
+    }
+
+    elements.forEach((el) => revealObserver.observe(el));
+  }
+
   function initReveal() {
-    const elements = document.querySelectorAll(".reveal");
-    if (!elements.length) return;
+    observeReveal(document.querySelectorAll(".reveal"));
+  }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
-    );
+  /* ------------------------------------------------------------------
+     Pinned GitHub repos → Highlights
+     ------------------------------------------------------------------ */
+  function escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
 
-    elements.forEach((el) => observer.observe(el));
+  function formatStarCount(count) {
+    const n = Number(count) || 0;
+    return n === 1 ? "1 star" : `${n} stars`;
+  }
+
+  function buildHighlightCard(repo) {
+    const author = repo.author || "hoolies";
+    const name = repo.name || "repository";
+    const url = `https://github.com/${encodeURIComponent(author)}/${encodeURIComponent(name)}`;
+    const description =
+      (repo.description && String(repo.description).trim()) ||
+      "Pinned on GitHub — open the repo for details.";
+    const language = repo.language ? String(repo.language).trim() : "";
+    const stars = Number(repo.stars) || 0;
+    const forks = Number(repo.forks) || 0;
+
+    const proofParts = [formatStarCount(stars)];
+    if (forks > 0) proofParts.push(forks === 1 ? "1 fork" : `${forks} forks`);
+    if (language) proofParts.push(language);
+
+    const tags = language
+      ? `<ul class="highlight-tags"><li>${escapeHtml(language)}</li></ul>`
+      : "";
+
+    return `
+      <article class="highlight-card reveal">
+        <span class="highlight-badge">Pinned</span>
+        <h3>${escapeHtml(name)}</h3>
+        <p>${escapeHtml(description)}</p>
+        <p class="highlight-proof">${escapeHtml(proofParts.join(" · "))}</p>
+        ${tags}
+        <a href="${escapeHtml(url)}" class="highlight-link" target="_blank" rel="noopener noreferrer">View repo →</a>
+      </article>
+    `;
+  }
+
+  async function initPinnedHighlights() {
+    const grid = document.getElementById("highlightGrid");
+    if (!grid) return;
+
+    const user = grid.dataset.githubUser || "hoolies";
+    const endpoint = `https://pinned.berrysauce.dev/get/${encodeURIComponent(user)}`;
+
+    try {
+      const response = await fetch(endpoint, {
+        headers: { Accept: "application/json" },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Pinned repos request failed (${response.status})`);
+      }
+
+      const repos = await response.json();
+      if (!Array.isArray(repos) || repos.length === 0) {
+        throw new Error("No pinned repositories returned");
+      }
+
+      grid.innerHTML = repos.map(buildHighlightCard).join("");
+      grid.setAttribute("aria-busy", "false");
+      observeReveal(grid.querySelectorAll(".reveal"));
+    } catch (error) {
+      console.warn("Could not load pinned GitHub repos:", error);
+      grid.setAttribute("aria-busy", "false");
+      grid.innerHTML = `
+        <p class="highlight-status highlight-status-error">
+          Couldn’t load pinned repos right now.
+          <a href="https://github.com/${encodeURIComponent(user)}" target="_blank" rel="noopener noreferrer">See GitHub profile →</a>
+        </p>
+      `;
+    }
   }
 
   /* ------------------------------------------------------------------
@@ -968,6 +1059,7 @@
     initNetworkCanvas();
     initTerminal();
     initReveal();
+    initPinnedHighlights();
     initCounters();
     initHeader();
     initNav();
