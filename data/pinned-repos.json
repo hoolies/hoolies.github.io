@@ -19,15 +19,6 @@
   },
   {
     "author": "hoolies",
-    "name": "Eurotas",
-    "description": "A local broadcast hub that encodes one source once and plays it in sync on every screen.",
-    "language": "Python",
-    "languageColor": "#3572A5",
-    "stars": 0,
-    "forks": 0
-  },
-  {
-    "author": "hoolies",
     "name": "SAND",
     "description": "Turns spreadsheets into a DuckDB database with a local API, SQL, and chart-first answers.",
     "language": "Python",
@@ -50,6 +41,15 @@
     "description": "A lightweight camera kiosk: a thin client that only shows security cameras and is managed over SSH.",
     "language": "Shell",
     "languageColor": "#89e051",
+    "stars": 0,
+    "forks": 0
+  },
+  {
+    "author": "hoolies",
+    "name": "agent-skills",
+    "description": "A collection of the best skills with my personal decision making.",
+    "language": "Python",
+    "languageColor": "#3572A5",
     "stars": 0,
     "forks": 0
   }
