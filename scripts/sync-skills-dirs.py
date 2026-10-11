@@ -11,12 +11,6 @@ MANIFEST = ROOT / "chrysanthos" / "skills" / "skills.manifest.json"
 SKILLS_ROOT = ROOT / "chrysanthos" / "skills"
 
 
-def child_name(child: str | dict) -> str:
-    if isinstance(child, str):
-        return child
-    return str(child["name"])
-
-
 def main() -> None:
     data = json.loads(MANIFEST.read_text(encoding="utf-8"))
     created = 0
@@ -25,7 +19,7 @@ def main() -> None:
         cat_dir = SKILLS_ROOT / category["name"]
         cat_dir.mkdir(parents=True, exist_ok=True)
         for child in category["children"]:
-            child_dir = cat_dir / child_name(child)
+            child_dir = cat_dir / child
             child_dir.mkdir(parents=True, exist_ok=True)
             keep = child_dir / ".gitkeep"
             if not keep.exists():

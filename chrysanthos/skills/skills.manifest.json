@@ -3,47 +3,32 @@
   "categories": [
     {
       "name": "linux",
-      "repo": "https://github.com/hoolies/Voidling",
-      "children": [
-        {"name": "containers", "repo": "https://github.com/hoolies/Voidling"},
-        "hardening",
-        {"name": "patching", "repo": "https://github.com/hoolies/Voidling"},
-        {"name": "networks", "repo": "https://github.com/hoolies/NetworkAutomationProject"}
-      ]
+      "children": ["containers", "hardening", "patching", "networks"]
     },
     {
       "name": "systems",
       "children": [
-        {"name": "edge", "repo": "https://github.com/hoolies/Cakio"},
-        {"name": "on-prem", "repo": "https://github.com/hoolies/Eurotas"},
-        {"name": "lifecycle", "repo": "https://github.com/hoolies/Voidling"},
+        "edge",
+        "on-prem",
+        "lifecycle",
         "optimise",
-        {"name": "disaster-recovery", "repo": "https://github.com/hoolies/Voidling"},
+        "disaster-recovery",
         "interconnected"
       ]
     },
     {
       "name": "networking",
-      "repo": "https://github.com/hoolies/NetworkAutomationProject",
-      "children": [
-        "bgp",
-        "vpn",
-        "firewalls",
-        "acls",
-        "oob",
-        {"name": "management", "repo": "https://github.com/hoolies/NetworkAutomationProject"},
-        "sockets"
-      ]
+      "children": ["bgp", "vpn", "firewalls", "acls", "oob", "management", "sockets"]
     },
     {
       "name": "automation",
       "children": [
         "boto3",
         "ci-cd-pipelines",
-        {"name": "python", "repo": "https://github.com/hoolies/SAND"},
-        {"name": "bash", "repo": "https://github.com/hoolies/NetworkAutomationProject"},
-        {"name": "api", "repo": "https://github.com/hoolies/JinjaRender"},
-        {"name": "infrastructure-as-code", "repo": "https://github.com/hoolies/NetworkAutomationProject"},
+        "python",
+        "bash",
+        "api",
+        "infrastructure-as-code",
         "monitoring",
         "notifications",
         "paramiko"

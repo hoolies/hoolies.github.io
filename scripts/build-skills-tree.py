@@ -21,40 +21,17 @@ def branch_glyph(is_last: bool) -> str:
     return "└── " if is_last else "├── "
 
 
-def child_name(child: str | dict) -> str:
-    if isinstance(child, str):
-        return child
-    return str(child["name"])
-
-
-def child_repo(child: str | dict) -> str | None:
-    if isinstance(child, dict):
-        repo = child.get("repo")
-        if isinstance(repo, str) and repo.strip():
-            return repo.strip()
-    return None
-
-
-def line_to_html(prefix: str, name: str, *, repo: str | None = None, gap: bool = False) -> str:
+def line_to_html(prefix: str, name: str, *, gap: bool = False) -> str:
     if gap:
         return (
             '              <div class="tree-line tree-gap" aria-hidden="true">'
             '<span class="tree-branch">│</span></div>'
         )
 
-    safe_name = escape(name)
-    if repo:
-        label = (
-            f'<a class="tree-dir" href="{escape(repo, quote=True)}"'
-            f' target="_blank" rel="noopener noreferrer">{safe_name}</a>'
-        )
-    else:
-        label = f'<span class="tree-dir">{safe_name}</span>'
-
     return (
         f'              <div class="tree-line">'
         f'<span class="tree-branch">{prefix}</span>'
-        f'{label}</div>'
+        f'<span class="tree-dir">{escape(name)}</span></div>'
     )
 
 
@@ -72,13 +49,7 @@ def build_html(categories: list[dict]) -> str:
             rows.append(line_to_html("", "", gap=True))
 
         cat_is_last = cat_index == cat_count - 1
-        rows.append(
-            line_to_html(
-                branch_glyph(cat_is_last),
-                category["name"],
-                repo=category.get("repo"),
-            )
-        )
+        rows.append(line_to_html(branch_glyph(cat_is_last), category["name"]))
 
         children = category["children"]
         for child_index, child in enumerate(children):
@@ -86,8 +57,7 @@ def build_html(categories: list[dict]) -> str:
             rows.append(
                 line_to_html(
                     child_prefix(cat_is_last, child_is_last),
-                    child_name(child),
-                    repo=child_repo(child),
+                    child,
                 )
             )
 
@@ -101,7 +71,7 @@ def verify_directories(categories: list[dict]) -> None:
         if not cat_dir.is_dir():
             missing.append(str(cat_dir))
         for child in category["children"]:
-            child_dir = cat_dir / child_name(child)
+            child_dir = cat_dir / child
             if not child_dir.is_dir():
                 missing.append(str(child_dir))
 
