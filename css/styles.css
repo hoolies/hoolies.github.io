@@ -12,7 +12,7 @@
 
   --text-primary: #e8edf4;
   --text-secondary: #8b9cb3;
-  --text-muted: #5a6b82;
+  --text-muted: #7d8da2;
 
   --accent: #00e5a0;
   --accent-dim: rgba(0, 229, 160, 0.15);
@@ -25,7 +25,7 @@
 
   --font-display: "Syne", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
-  --font-terminal: "Hack Nerd Font Mono", "Hack Nerd Font", ui-monospace, monospace;
+  --font-terminal: "IBM Plex Mono", ui-monospace, monospace;
 
   --radius-sm: 8px;
   --radius-md: 14px;
@@ -1745,6 +1745,10 @@ ul {
 }
 
 /* Keyboard shortcuts overlay */
+body.shortcuts-open {
+  overflow: hidden;
+}
+
 .shortcuts-overlay {
   position: fixed;
   inset: 0;
@@ -1849,14 +1853,14 @@ ul {
   font-size: 0.75rem !important;
 }
 
-/* Reveal animations */
-.reveal {
+/* Reveal animations. Hidden only when JS ran, so a failed script still shows the page. */
+.js .reveal {
   opacity: 0;
   transform: translateY(28px);
   transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
 }
 
-.reveal.visible {
+.js .reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -1890,7 +1894,8 @@ ul {
     transform: perspective(1200px) rotateX(2deg) rotateY(-4deg);
   }
 
-  .reveal {
+  .reveal,
+  .js .reveal {
     opacity: 1;
     transform: none;
     transition: none;
@@ -1907,6 +1912,14 @@ ul {
   }
 
   .terminal-window {
+    transform: none;
+  }
+}
+
+@media (scripting: none) {
+  .reveal,
+  .js .reveal {
+    opacity: 1;
     transform: none;
   }
 }

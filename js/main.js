@@ -9,6 +9,8 @@
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
     let width = 0;
     let height = 0;
     let nodes = [];
@@ -19,8 +21,14 @@
     const MAX_DISTANCE = 140;
 
     function resize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
     function createNodes() {
@@ -145,6 +153,10 @@
     }
 
     function setSession(next) {
+      if (typeTimer) {
+        clearTimeout(typeTimer);
+        typeTimer = null;
+      }
       session = next;
       commands = commandSets[session];
       cmdIndex = 0;
@@ -269,7 +281,12 @@
           event.stopPropagation();
           setSession(tab.dataset.session || "incident");
           lockTerminalHeight();
-          if (!prefersReducedMotion) typeLoop();
+          if (!prefersReducedMotion) {
+            typeLoop();
+          } else {
+            commandEl.textContent = commands[0].cmd;
+            showOutput(commands[0].output);
+          }
         });
       });
     }
@@ -382,12 +399,14 @@
     if (!grid) return;
 
     const user = grid.dataset.githubUser || "hoolies";
-    const endpoint = `https://pinned.berrysauce.dev/get/${encodeURIComponent(user)}`;
+    const endpoint = "data/pinned-repos.json";
+    const fetchOptions = { headers: { Accept: "application/json" } };
+    if (typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function") {
+      fetchOptions.signal = AbortSignal.timeout(8000);
+    }
 
     try {
-      const response = await fetch(endpoint, {
-        headers: { Accept: "application/json" },
-      });
+      const response = await fetch(endpoint, fetchOptions);
 
       if (!response.ok) {
         throw new Error(`Pinned repos request failed (${response.status})`);
@@ -437,6 +456,15 @@
   function initCounters() {
     const counters = document.querySelectorAll("[data-count]");
     if (!counters.length) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      counters.forEach((el) => {
+        const target = parseInt(el.dataset.count, 10);
+        const suffix = el.dataset.suffix || "";
+        el.textContent = String(target) + suffix;
+      });
+      return;
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -496,7 +524,7 @@
   }
 
   /* ------------------------------------------------------------------
-     Contact form — FormSubmit relay (email not exposed in markup)
+     Contact form — FormSubmit POST so their captcha can run
      ------------------------------------------------------------------ */
   function initContactForm() {
     const form = document.getElementById("contactForm");
@@ -504,52 +532,26 @@
     const submitBtn = document.getElementById("contactSubmit");
     if (!form || !statusEl || !submitBtn) return;
 
-    const endpoint = "https://formsubmit.co/ajax/chrysanthos@rouvellas.com";
-
     if (new URLSearchParams(window.location.search).get("sent") === "1") {
       statusEl.textContent = "Message sent. I'll get back to you soon.";
       statusEl.classList.add("form-status-success");
+      const contact = document.getElementById("contact");
+      if (contact) {
+        const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+        contact.scrollIntoView({ behavior, block: "start" });
+      }
       window.history.replaceState({}, "", window.location.pathname + window.location.hash);
     }
 
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
+    form.addEventListener("submit", (event) => {
       if (!form.checkValidity()) {
+        event.preventDefault();
         form.reportValidity();
         return;
       }
 
       submitBtn.disabled = true;
       submitBtn.textContent = "Sending…";
-      statusEl.textContent = "";
-      statusEl.className = "form-status";
-
-      const payload = new FormData(form);
-      payload.append("_subject", "Portfolio contact");
-      payload.append("_captcha", "false");
-
-      try {
-        const response = await fetch(endpoint, {
-          method: "POST",
-          body: payload,
-          headers: { Accept: "application/json" },
-        });
-
-        if (!response.ok) {
-          throw new Error("Request failed");
-        }
-
-        form.reset();
-        statusEl.textContent = "Message sent. I'll get back to you soon.";
-        statusEl.classList.add("form-status-success");
-      } catch {
-        statusEl.textContent = "Something went wrong. Try again in a moment.";
-        statusEl.classList.add("form-status-error");
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Send message";
-      }
     });
   }
 
@@ -729,7 +731,7 @@
     const progressBar = document.createElement("span");
     progressBar.className = "cost-carousel-progress";
     progressBar.setAttribute("role", "progressbar");
-    progressBar.setAttribute("aria-valuemin", "0");
+    progressBar.setAttribute("aria-valuemin", "1");
     progressBar.setAttribute("aria-valuemax", String(slides.length));
     progressBar.setAttribute("aria-valuenow", "1");
     progressBar.setAttribute("aria-label", "Cost reduction slide progress");
@@ -790,7 +792,6 @@
     }
 
     carousel.carouselApi = { prev, next, goTo };
-    window.__costCarouselApi = carousel.carouselApi;
 
     slides[0].classList.add("active");
     setActive(0);
@@ -814,12 +815,19 @@
     carousel.addEventListener("mouseleave", restartTimer);
   }
 
+  function carouselIsEngaged(carousel) {
+    if (!carousel || carousel.classList.contains("cost-carousel-static")) return false;
+    if (carousel.contains(document.activeElement)) return true;
+    const rect = carousel.getBoundingClientRect();
+    return rect.bottom > 0 && rect.top < window.innerHeight;
+  }
+
   function handleCarouselKey(event) {
     if (event.ctrlKey || event.metaKey || event.altKey) return false;
 
     const carousel = document.getElementById("costCarousel");
-    const api = carousel?.carouselApi || window.__costCarouselApi;
-    if (!api) return false;
+    const api = carousel?.carouselApi;
+    if (!api || !carouselIsEngaged(carousel)) return false;
 
     const el = document.activeElement;
     if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.tagName === "SELECT" || el.isContentEditable)) {
@@ -853,6 +861,8 @@
     const shortcutsOverlay = document.getElementById("shortcutsOverlay");
     const shortcutsClose = document.getElementById("shortcutsClose");
 
+    let shortcutsReturnFocus = null;
+
     function isTypingTarget() {
       const el = document.activeElement;
       if (!el) return false;
@@ -860,15 +870,62 @@
       return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || el.isContentEditable;
     }
 
+    function motionBehavior() {
+      return window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+    }
+
+    function navIsOpen() {
+      return document.getElementById("siteNav")?.classList.contains("open");
+    }
+
+    function closeMobileNav() {
+      const toggle = document.getElementById("navToggle");
+      const nav = document.getElementById("siteNav");
+      if (!toggle || !nav) return;
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Open menu");
+      nav.classList.remove("open");
+      toggle.focus();
+    }
+
+    function shortcutsOpen() {
+      return Boolean(shortcutsOverlay && !shortcutsOverlay.hidden);
+    }
+
     function openShortcuts() {
       if (!shortcutsOverlay) return;
+      shortcutsReturnFocus = document.activeElement;
       shortcutsOverlay.hidden = false;
+      document.body.classList.add("shortcuts-open");
       shortcutsClose?.focus();
     }
 
     function closeShortcuts() {
       if (!shortcutsOverlay) return;
       shortcutsOverlay.hidden = true;
+      document.body.classList.remove("shortcuts-open");
+      if (shortcutsReturnFocus && typeof shortcutsReturnFocus.focus === "function") {
+        shortcutsReturnFocus.focus();
+      }
+      shortcutsReturnFocus = null;
+    }
+
+    function trapShortcutsTab(event) {
+      if (event.code !== "Tab" || !shortcutsOpen()) return;
+      const dialog = shortcutsOverlay.querySelector(".shortcuts-dialog");
+      if (!dialog) return;
+      const items = [...dialog.querySelectorAll("button, a[href], input, textarea, select")]
+        .filter((el) => !el.disabled);
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
 
     shortcutsClose?.addEventListener("click", closeShortcuts);
@@ -899,19 +956,20 @@
     }
 
     function scrollToSection(id) {
+      const behavior = motionBehavior();
       if (id === "top") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({ top: 0, behavior });
         return;
       }
       const el = document.getElementById(id);
       if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        el.scrollIntoView({ behavior, block: "start" });
       }
     }
 
     function handleSectionKey(event) {
       if (event.ctrlKey || event.metaKey || event.altKey) return;
-      if (isTypingTarget()) return;
+      if (isTypingTarget() || shortcutsOpen() || navIsOpen()) return;
 
       const code = event.code;
 
@@ -923,7 +981,7 @@
 
       if (code === "KeyG" && event.shiftKey) {
         event.preventDefault();
-        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: motionBehavior() });
         return;
       }
 
@@ -960,15 +1018,25 @@
         return;
       }
 
-      if (event.code === "Escape" && shortcutsOverlay && !shortcutsOverlay.hidden) {
-        event.preventDefault();
-        closeShortcuts();
+      if (event.code === "Escape") {
+        if (shortcutsOpen()) {
+          event.preventDefault();
+          closeShortcuts();
+          return;
+        }
+        if (navIsOpen()) {
+          event.preventDefault();
+          closeMobileNav();
+        }
       }
     }
 
     window.addEventListener("keydown", (event) => {
-      handleSectionKey(event);
-      handleCarouselKey(event);
+      trapShortcutsTab(event);
+      if (!shortcutsOpen() && !navIsOpen()) {
+        handleSectionKey(event);
+        handleCarouselKey(event);
+      }
       handleShortcutsKey(event);
     }, true);
   }

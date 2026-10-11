@@ -24,11 +24,15 @@ portfolio/
 ├── index.html
 ├── css/styles.css
 ├── js/main.js
-├── fonts/                    # Self-hosted Syne, IBM Plex Mono, Hack Nerd Font Mono
+├── fonts/                    # Self-hosted Syne and IBM Plex Mono (woff2)
+├── data/pinned-repos.json    # Highlights section snapshot
 ├── chrysanthos/skills/       # Skill directories + manifest (source of truth)
 ├── scripts/
 │   ├── sync-skills-dirs.py   # Create dirs from manifest
-│   └── build-skills-tree.py  # Regenerate tree HTML in index.html
+│   ├── build-skills-tree.py  # Regenerate tree HTML in index.html
+│   └── fetch-pinned-repos.py # Refresh data/pinned-repos.json
+├── robots.txt
+├── sitemap.xml
 ├── FUTURE.md                 # Reminders (GitHub repos, Highlights links)
 ├── og-image.html             # Source for social preview image
 └── CNAME                     # rouvellas.com
@@ -44,6 +48,16 @@ After editing the manifest:
 python3 scripts/sync-skills-dirs.py
 python3 scripts/build-skills-tree.py
 ```
+
+## Pinned repos
+
+The Highlights section reads `data/pinned-repos.json`. After pinning or unpinning on GitHub:
+
+```bash
+python3 scripts/fetch-pinned-repos.py
+```
+
+Commit the updated JSON.
 
 ## Social preview image (`og-image.png`)
 

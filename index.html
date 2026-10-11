@@ -3,26 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Chrysanthos Rouvellas. Technical training and infrastructure consulting. Nearly 30 years of Linux, networking, and mentorship. Fundamentals evangelist and lead engineer.">
+  <script>document.documentElement.classList.add("js");</script>
+  <meta name="description" content="Linux training and infrastructure consulting. Nearly 30 years on Linux, networking, SCADA, and OT. Workshops, assessments, and retainers.">
   <meta name="author" content="Chrysanthos Rouvellas">
+  <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#0a0e14">
   <link rel="canonical" href="https://rouvellas.com/">
 
+  <meta property="og:locale" content="en_CA">
+  <meta property="og:site_name" content="Chrysanthos Rouvellas">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Chrysanthos Rouvellas | Fundamentals Evangelist">
-  <meta property="og:description" content="Technical training and infrastructure consulting from a fundamentals evangelist with nearly 30 years of Linux, networking, and hands-on engineering.">
+  <meta property="og:title" content="Chrysanthos Rouvellas | Linux Training &amp; Consulting">
+  <meta property="og:description" content="Linux training and infrastructure consulting. Nearly 30 years on Linux, networking, SCADA, and OT. Workshops, assessments, and retainers.">
   <meta property="og:url" content="https://rouvellas.com/">
   <meta property="og:image" content="https://rouvellas.com/og-image.png">
+  <meta property="og:image:alt" content="Chrysanthos Rouvellas, Linux training and infrastructure consulting">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Chrysanthos Rouvellas | Fundamentals Evangelist">
-  <meta name="twitter:description" content="Technical training and infrastructure consulting. Nearly 30 years of Linux mastery, automation, and mentorship at scale.">
+  <meta name="twitter:title" content="Chrysanthos Rouvellas | Linux Training &amp; Consulting">
+  <meta name="twitter:description" content="Linux training and infrastructure consulting. Nearly 30 years on Linux, networking, SCADA, and OT. Workshops, assessments, and retainers.">
   <meta name="twitter:image" content="https://rouvellas.com/og-image.png">
+  <meta name="twitter:image:alt" content="Chrysanthos Rouvellas, Linux training and infrastructure consulting">
 
-  <title>Chrysanthos Rouvellas | Fundamentals Evangelist</title>
+  <title>Chrysanthos Rouvellas | Linux Training &amp; Consulting</title>
 
+  <link rel="preload" href="fonts/Syne-ExtraBold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/IBMPlexMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="fonts/fonts.css">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -30,20 +38,59 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Chrysanthos Rouvellas",
-    "jobTitle": "Lead Support Engineer",
-    "description": "Technical training and infrastructure consulting. SCADA and OT network integration, firewalls, ACLs, and enterprise Linux.",
-    "email": "chrysanthos@rouvellas.com",
-    "url": "https://rouvellas.com/",
-    "sameAs": [
-      "https://github.com/hoolies",
-      "https://www.linkedin.com/in/crouvellas/"
-    ],
-    "knowsAbout": [
-      "Linux", "Systems", "Networking", "Automation", "Leadership", "AI",
-      "SCADA", "OT network integration", "Firewalls", "ACLs", "BGP", "VPN",
-      "Technical Training", "Consulting"
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://rouvellas.com/#website",
+        "url": "https://rouvellas.com/",
+        "name": "Chrysanthos Rouvellas",
+        "description": "Linux training and infrastructure consulting. Nearly 30 years on Linux, networking, SCADA, and OT.",
+        "inLanguage": "en-CA",
+        "publisher": { "@id": "https://rouvellas.com/#person" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://rouvellas.com/#person",
+        "name": "Chrysanthos Rouvellas",
+        "jobTitle": "Lead Support Engineer",
+        "description": "Technical training and infrastructure consulting. SCADA and OT network integration, firewalls, ACLs, and enterprise Linux.",
+        "email": "chrysanthos@rouvellas.com",
+        "url": "https://rouvellas.com/",
+        "image": "https://rouvellas.com/og-image.png",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "CA"
+        },
+        "sameAs": [
+          "https://github.com/hoolies",
+          "https://www.linkedin.com/in/crouvellas/"
+        ],
+        "knowsAbout": [
+          "Linux", "Systems", "Networking", "Automation", "Leadership", "AI",
+          "SCADA", "OT network integration", "Firewalls", "ACLs", "BGP", "VPN",
+          "Technical Training", "Consulting"
+        ]
+      },
+      {
+        "@type": "Service",
+        "@id": "https://rouvellas.com/#training",
+        "name": "Technical training",
+        "serviceType": "Technical training",
+        "url": "https://rouvellas.com/#services",
+        "provider": { "@id": "https://rouvellas.com/#person" },
+        "areaServed": "Worldwide",
+        "description": "Curricula and workshops built from first principles, from half-day sessions to multi-day on-site or remote training."
+      },
+      {
+        "@type": "Service",
+        "@id": "https://rouvellas.com/#consulting",
+        "name": "Infrastructure consulting",
+        "serviceType": "Infrastructure consulting",
+        "url": "https://rouvellas.com/#services",
+        "provider": { "@id": "https://rouvellas.com/#person" },
+        "areaServed": "Worldwide",
+        "description": "Assessments, project engagements, and retainers for Linux infrastructure, SCADA and OT networks, firewalls, and ACLs."
+      }
     ]
   }
   </script>
@@ -116,7 +163,7 @@
             </div>
             <div class="stat">
               <dt><span data-count="95" data-suffix="%">0</span></dt>
-              <dd>Client satisfaction (career)</dd>
+              <dd>Client satisfaction (advisory)</dd>
             </div>
             <div class="stat">
               <dt><span data-count="60" data-suffix="%">0</span></dt>
@@ -313,9 +360,8 @@
           <span class="section-label">Highlights</span>
           <h2 id="highlights-title">What I build</h2>
           <p class="section-intro">
-            Live from my GitHub pins — whatever is pinned on
-            <a href="https://github.com/hoolies" target="_blank" rel="noopener noreferrer">github.com/hoolies</a>
-            right now.
+            Pinned repositories from
+            <a href="https://github.com/hoolies" target="_blank" rel="me noopener noreferrer">github.com/hoolies</a>.
           </p>
         </header>
 
@@ -348,7 +394,7 @@
                   <h3>Amazon (OTS)</h3>
                   <p class="timeline-role">Lead Support Engineer, Canada East</p>
                 </div>
-                <time datetime="2025-06">Jun 2025 to Present</time>
+                <time datetime="2025-06">Jun 2025</time> to Present
               </header>
               <ul class="timeline-details">
                 <li>L&amp;D team: mentor org-wide, create and approve training curricula</li>
@@ -366,7 +412,7 @@
                   <h3>Amazon (AR R&amp;D)</h3>
                   <p class="timeline-role">System Developer Engineer</p>
                 </div>
-                <time datetime="2024-06/2025-06">Jun 2024 to Jun 2025</time>
+                <time datetime="2024-06">Jun 2024</time> to <time datetime="2025-06">Jun 2025</time>
               </header>
               <ul class="timeline-details">
                 <li>Network consulting for SCADA and OT network integration across manufacturing workcells</li>
@@ -384,7 +430,7 @@
                   <h3>Amazon (OTIE)</h3>
                   <p class="timeline-role">Network Developer Engineer</p>
                 </div>
-                <time datetime="2023-06/2024-06">Jun 2023 to Jun 2024</time>
+                <time datetime="2023-06">Jun 2023</time> to <time datetime="2024-06">Jun 2024</time>
               </header>
               <ul class="timeline-details">
                 <li>Built IPv6 OOB management network: runbooks, APIs, Linux configs, change workflows</li>
@@ -402,7 +448,7 @@
                   <h3>Amazon</h3>
                   <p class="timeline-role">Lead Support Engineer, YHM Node</p>
                 </div>
-                <time datetime="2021-09/2023-06">Sep 2021 to Jun 2023</time>
+                <time datetime="2021-09">Sep 2021</time> to <time datetime="2023-06">Jun 2023</time>
               </header>
               <ul class="timeline-details">
                 <li>OT/SCADA network integration, Layers 1 to 3 diagnosis; vendor and cross-team coordination</li>
@@ -420,7 +466,7 @@
                   <h3>Binatech System Solutions</h3>
                   <p class="timeline-role">Systems Administrator</p>
                 </div>
-                <time datetime="2019-12/2021-07">Dec 2019 to Jul 2021</time>
+                <time datetime="2019-12">Dec 2019</time> to <time datetime="2021-07">Jul 2021</time>
               </header>
               <ul class="timeline-details">
                 <li>Managed 100+ SMB infrastructures: patching, DR, SIEM, firewalls, VPN</li>
@@ -438,7 +484,7 @@
                   <h3>Concentrix</h3>
                   <p class="timeline-role">Senior Technical Advisor</p>
                 </div>
-                <time datetime="2017-05/2019-09">May 2017 to Sep 2019</time>
+                <time datetime="2017-05">May 2017</time> to <time datetime="2019-09">Sep 2019</time>
               </header>
               <ul class="timeline-details">
                 <li><strong>95%+ client satisfaction</strong>, 90% first-contact resolution, 100% issue closure</li>
@@ -594,7 +640,7 @@
                   </div>
                 </div>
               </div>
-              <div class="cost-carousel-nav" id="costCarouselNav" role="tablist" aria-label="Cost reduction slides"></div>
+              <div class="cost-carousel-nav" id="costCarouselNav" aria-label="Cost reduction slides"></div>
             </div>
           </article>
         </div>
@@ -615,7 +661,10 @@
           </div>
 
           <div class="contact-aside">
-            <form class="contact-form" id="contactForm" novalidate>
+            <form class="contact-form" id="contactForm" action="https://formsubmit.co/chrysanthos@rouvellas.com" method="POST" novalidate>
+              <input type="hidden" name="_subject" value="Portfolio contact">
+              <input type="hidden" name="_captcha" value="true">
+              <input type="hidden" name="_next" value="https://rouvellas.com/?sent=1#contact">
               <div class="form-field">
                 <label for="contactName">Name</label>
                 <input type="text" id="contactName" name="name" autocomplete="name" required>
@@ -638,11 +687,15 @@
                 <span class="contact-link-label">Email</span>
                 <span class="contact-link-value">chrysanthos@rouvellas.com</span>
               </a>
-              <a href="https://github.com/hoolies" class="contact-link" target="_blank" rel="noopener noreferrer">
+              <a href="resume.pdf" class="contact-link">
+                <span class="contact-link-label">Resume</span>
+                <span class="contact-link-value">PDF</span>
+              </a>
+              <a href="https://github.com/hoolies" class="contact-link" target="_blank" rel="me noopener noreferrer">
                 <span class="contact-link-label">GitHub</span>
                 <span class="contact-link-value">@hoolies</span>
               </a>
-              <a href="https://www.linkedin.com/in/crouvellas/" class="contact-link" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.linkedin.com/in/crouvellas/" class="contact-link" target="_blank" rel="me noopener noreferrer">
                 <span class="contact-link-label">LinkedIn</span>
                 <span class="contact-link-value">crouvellas</span>
               </a>
@@ -684,7 +737,7 @@
   </footer>
 
   <script data-goatcounter="https://hoolies.goatcounter.com/count"
-          async src="//gc.zgo.at/count.js"></script>
+          async src="https://gc.zgo.at/count.js"></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>
