@@ -915,7 +915,7 @@ ul {
   height: var(--tree-line-size);
   line-height: var(--tree-line-size);
   white-space: pre;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .skills-tree-output .tree-branch,
@@ -942,6 +942,18 @@ ul {
 
 .skills-tree-output .tree-dir {
   color: var(--accent-secondary);
+}
+
+.skills-tree-output a.tree-dir {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.12em;
+}
+
+.skills-tree-output a.tree-dir:hover,
+.skills-tree-output a.tree-dir:focus-visible {
+  color: var(--text-primary);
 }
 
 @media (min-width: 961px) {

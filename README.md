@@ -40,7 +40,7 @@ portfolio/
 
 ## Skills tree
 
-Categories and order live in `chrysanthos/skills/skills.manifest.json`. Matching directories under `chrysanthos/skills/` back the `tree -d -C -L 2 chrysanthos/skills` display.
+Categories and order live in `chrysanthos/skills/skills.manifest.json`. A `repo` field on a category or child turns that name into a link. Matching directories under `chrysanthos/skills/` back the `tree -d -C -L 2 chrysanthos/skills` display.
 
 After editing the manifest:
 

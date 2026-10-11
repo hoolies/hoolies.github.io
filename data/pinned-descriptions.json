@@ -1,0 +1,10 @@
+{
+  ".config": "Personal Vim configuration.",
+  "Cakio": "A lightweight camera kiosk: a thin client that only shows security cameras and is managed over SSH.",
+  "Eurotas": "A local broadcast hub that encodes one source once and plays it in sync on every screen.",
+  "JinjaRender": "A minimalist API that generates HTML from a Jinja template and a JSON file.",
+  "NetworkAutomationProject": "Python, Ansible, and Bash that build a hub-and-spoke network of namespaces, bridges, and firewall rules.",
+  "RTFM": "A zsh plugin that fuzzy-finds options, arguments, and paths from the real manual.",
+  "SAND": "Turns spreadsheets into a DuckDB database with a local API, SQL, and chart-first answers.",
+  "Voidling": "An immutable OS built from unchanged Void Linux packages, with atomic updates and rollback."
+}

@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /chrysanthos/skills/
 
 Sitemap: https://rouvellas.com/sitemap.xml

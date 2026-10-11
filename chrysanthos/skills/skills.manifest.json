@@ -3,23 +3,63 @@
   "categories": [
     {
       "name": "linux",
-      "children": ["containers", "hardening", "patching", "networks"]
+      "repo": "https://github.com/hoolies/Voidling",
+      "children": [
+        {"name": "containers", "repo": "https://github.com/hoolies/Voidling"},
+        "hardening",
+        {"name": "patching", "repo": "https://github.com/hoolies/Voidling"},
+        {"name": "networks", "repo": "https://github.com/hoolies/NetworkAutomationProject"}
+      ]
     },
     {
       "name": "systems",
-      "children": ["edge", "on-prem", "lifecycle", "optimise", "disaster-recovery", "interconnected"]
+      "children": [
+        {"name": "edge", "repo": "https://github.com/hoolies/Cakio"},
+        {"name": "on-prem", "repo": "https://github.com/hoolies/Eurotas"},
+        {"name": "lifecycle", "repo": "https://github.com/hoolies/Voidling"},
+        "optimise",
+        {"name": "disaster-recovery", "repo": "https://github.com/hoolies/Voidling"},
+        "interconnected"
+      ]
     },
     {
       "name": "networking",
-      "children": ["bgp", "vpn", "firewalls", "acls", "oob", "management", "sockets"]
+      "repo": "https://github.com/hoolies/NetworkAutomationProject",
+      "children": [
+        "bgp",
+        "vpn",
+        "firewalls",
+        "acls",
+        "oob",
+        {"name": "management", "repo": "https://github.com/hoolies/NetworkAutomationProject"},
+        "sockets"
+      ]
     },
     {
       "name": "automation",
-      "children": ["boto3", "ci-cd-pipelines", "python", "bash", "api", "infrastructure-as-code", "monitoring", "notifications", "paramiko"]
+      "children": [
+        "boto3",
+        "ci-cd-pipelines",
+        {"name": "python", "repo": "https://github.com/hoolies/SAND"},
+        {"name": "bash", "repo": "https://github.com/hoolies/NetworkAutomationProject"},
+        {"name": "api", "repo": "https://github.com/hoolies/JinjaRender"},
+        {"name": "infrastructure-as-code", "repo": "https://github.com/hoolies/NetworkAutomationProject"},
+        "monitoring",
+        "notifications",
+        "paramiko"
+      ]
     },
     {
       "name": "leadership",
-      "children": ["sop", "kpi", "change-management", "knowledge-base", "chaos-engineering", "pre-mortem", "rca"]
+      "children": [
+        "sop",
+        "kpi",
+        "change-management",
+        "knowledge-base",
+        "chaos-engineering",
+        "pre-mortem",
+        "rca"
+      ]
     },
     {
       "name": "ai",
